@@ -1,7 +1,7 @@
-Laboratório 4540 - Administração de Containers - DCA
+Laboratório 513 - Gerenciar Ambientes Automatizados com Ansible
 =============================
 
-Repositório para armazenar o Laboratório do curso de Administração de Containers - DCA da [4Linux][1]
+Repositório para armazenar o Laboratório do curso de ansible da [4Linux][1]
 
 Dependências
 ------------
@@ -11,8 +11,6 @@ Para a criação do laboratório é necessário ter pré instalado os seguintes 
 * [Git][2]
 * [VirtualBox][3]
 * [Vagrant][4]
-
-> Para o máquinas com Windows aconselhamos, se possível, que as instalações sejam feitas pelo gerenciador de pacotes **[Cygwin][5]**.
 
 > Para as máquinas com MAC OS aconselhamos, se possível, que as instalações sejam feitas pelo gerenciador de pacotes **brew**.
 
@@ -25,10 +23,11 @@ Nesse laboratório, que está centralizado no arquivo [Vagrantfile][7], sera cri
 
 Nome       | vCPUs | Memoria RAM | IP            | S.O.¹           
 ---------- |:-----:|:-----------:|:-------------:|:---------------:
-manager     | 1     | 3072MB | 172.16.0.100 | centos-7.3-x86_64
-worker01      | 1     | 1536MB | 172.16.0.101 | centos-7.3-x86_64
-worker02      | 1     | 1536MB | 172.16.0.102 | ubuntu-18.04-amd64
-registry      | 1     | 1024MB | 172.16.0.103 | ubuntu-18.04-amd64 
+ansible-server     | 1     | 2048MB | 172.16.0.200 | ubuntu-20.04
+web-server1     | 1     | 1024MB | 172.16.0.201 | ubuntu-20.04
+web-server2     | 1     | 1024MB | 172.16.0.202 | centos-8.5
+dbserver     | 1     | 1024MB | 172.16.0.203 | debian-10.11
+winclient     | 1     | 2048MB | 172.16.0.204 | windows-10
 
 > **¹**: Esses Sistemas operacionais estão sendo utilizado no formato de Boxes, é a forma como o vagrant chama as imagens do sistema operacional utilizado.
 
@@ -38,8 +37,10 @@ Criação do Laboratório
 Para criar o laboratório é necessário fazer o `git clone` desse repositório e, dentro da pasta baixada realizar a execução do `vagrant up`, conforme abaixo:
 
 ```bash
-git clone https://github.com/4linux/4540
-cd 4540/
+git clone https://github.com/4linux/513
+cd 513/
+vagrant plugin install winrm
+vagrant plugin install winrm-elevated
 vagrant up
 ```
 
