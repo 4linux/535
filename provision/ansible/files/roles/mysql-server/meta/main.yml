@@ -1,0 +1,20 @@
+---
+galaxy_info:
+  role_name: mysql_server
+  author: 4Linux DevOps
+  description: Instalacao e Configuracao do servidor MySQL
+  company: 4Linux
+  license: GPLv3
+  min_ansible_version: 2.9
+  platforms:
+  - name: Ubuntu
+    versions:
+    - 20.04
+  - name: CentOS
+    versions:
+    - 8
+  galaxy_tags:
+    - mysql
+collections:
+  - community.mysql
+dependencies: []

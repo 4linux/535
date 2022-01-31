@@ -1,0 +1,41 @@
+---
+- name: Configura senha do usuario root
+  mysql_user:
+    check_implicit_admin: yes
+    user: root
+    password: 4linux
+  tags: banco
+
+- name: Cria banco de dados dexter500
+  mysql_db:
+    name: dexter500
+    state: present
+  tags: banco
+
+- name: Verifica se as tabelas ja estao importadas no MySQL
+  stat:
+    path: /var/lib/mysql/dexter500/funcionarios.ibd
+  register: table_mysql
+
+- name: Importar tabelas para o banco de dados
+  when: not table_mysql.stat.exists
+  mysql_db:
+    name: dexter500
+    login_user: root
+    login_password: 4linux
+    target: /tmp/dump.sql
+    state: import
+  tags: banco
+
+- name: Adiciona usuario admin e configura privilegios
+  mysql_user:
+    name: admin
+    password: 4linux
+    host: "{{ item }}"
+    state: present
+    priv: "dexter500.*:ALL"
+  with_items:
+    - "localhost"
+    - "127.0.0.1"
+    - "%"
+  tags: banco

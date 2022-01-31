@@ -1,0 +1,22 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: Garantindo /etc/hosts
+      lineinfile:
+        path: /etc/hosts
+        line: "{{ item }}"
+      with_items:
+        - 172.16.0.200 ansible-server balancer
+        - 172.16.0.201 webserver1
+        - 172.16.0.202 webserver2
+        - 172.16.0.203 dbserver
+        - 172.16.0.204 winclient
+
+    - name: Ajustando /etc/hosts
+      lineinfile:
+        path: /etc/hosts
+        line: "127.0.0.1	webserver2	webserver2"
+        state: absent

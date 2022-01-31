@@ -1,0 +1,14 @@
+---
+- name: Verifica o funcionamento do servidor Web
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: Example assertion
+    assert:
+      that: true
+  - name: Testando o acesso ao servidor Web
+    uri:
+      url: http://172.16.0.200
+      return_content: true
+    register: web
+    failed_when: "'Dexter Courier' not in web.content"     

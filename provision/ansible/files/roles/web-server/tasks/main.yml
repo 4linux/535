@@ -1,0 +1,6 @@
+---
+- name: Define instalacao do servidor Apache
+  import_tasks: install.yml
+
+- name: Define configuracao do servidor Apache
+  import_tasks: configure.yml

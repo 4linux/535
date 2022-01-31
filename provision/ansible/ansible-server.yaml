@@ -1,0 +1,74 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: Garantindo /etc/hosts
+      lineinfile:
+        path: /etc/hosts
+        line: "{{ item }}"
+      with_items:
+        - 172.16.0.200 ansible-server balancer
+        - 172.16.0.201 webserver1
+        - 172.16.0.202 webserver2
+        - 172.16.0.203 dbserver
+        - 172.16.0.204 winclient
+
+    - name: Ajustando /etc/hosts
+      lineinfile:
+        path: /etc/hosts
+        line: "127.0.1.1	ansible-server	ansible-server"
+        state: absent
+
+    - name: Criando diretório docker-nfs-server-centos
+      synchronize:
+        src: files/docker-nfs-server-centos
+        dest: /home/suporte
+       
+    - name: Criando diretório docker-nfs-server-ubuntu
+      synchronize:
+        src: files/docker-nfs-server-ubuntu
+        dest: /home/suporte
+        
+    - name: Criando diretório kitchen
+      synchronize:
+        src: files/kitchen
+        dest: /home/suporte
+
+    - name: Criando diretório modulos
+      synchronize:
+        src: files/modulos
+        dest: /home/suporte
+
+    - name: Criando diretório molecule
+      synchronize:
+        src: files/molecule
+        dest: /home/suporte
+
+    - name: Criando diretório playbooks
+      synchronize:
+        src: files/playbooks
+        dest: /home/suporte
+
+    - name: Criando diretório roles
+      synchronize:
+        src: files/roles
+        dest: /home/suporte
+
+    - name: Criando diretório site
+      synchronize:
+        src: files/site
+        dest: /home/suporte
+        
+    - name: Configura o servidor SSH para permitir conexao por senha
+      ansible.builtin.replace:
+        path: /etc/ssh/sshd_config
+        regexp: '#PermitRootLogin prohibit-password'
+        replace: 'PermitRootLogin yes'
+
+    - name: Reinicia o SSH
+      service:
+        name: sshd
+        daemon_reload: yes
+        state: restarted

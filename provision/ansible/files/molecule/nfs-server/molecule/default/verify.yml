@@ -1,0 +1,12 @@
+---
+- name: Verifica o funcionamento do servidor NFS
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: Example assertion
+    assert:
+      that: true
+  - name: Testando o compartilhamento NFS
+    shell: "showmount -e --no-headers"
+    register: showmount_result
+    failed_when: showmount_result.stdout != "/opt/site 172.16.0.0/24"

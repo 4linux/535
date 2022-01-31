@@ -1,0 +1,26 @@
+---
+driver:
+  name: docker
+
+provisioner:
+  name: ansible_playbook
+  hosts: all
+  require_ansible_repo: true
+  require_ansible_omnibus: false
+  ansible_verbose: true
+  ansible_verbosity: 1
+  ansible_diff: true
+  roles_path: ../../roles
+  require_chef_for_busser: true
+
+platforms:
+  - name: Ubuntu
+    driver_config:
+      image: ubuntu:20.04
+      platform: ubuntu
+
+suites:
+  - name: default
+    verifier:
+      patterns:
+        - test/integration/default/serverspec/default_spec.rb

@@ -1,0 +1,21 @@
+---
+- hosts: local
+  tasks:
+   - name: Instala servidor Nginx
+     apt:
+       name: nginx
+       state: present
+       update_cache: true
+     register: nginx_installed
+     notify:
+     - Start Nginx
+   - name: Define o arquivo de configuracao do servidor Nginx
+     when: nginx_installed is succeeded
+     copy: src=/home/suporte/modulos/files/nginx/nginx.conf dest=/etc/nginx/nginx.conf owner=root group=root mode=0644
+     notify:
+      - Restart Nginx
+  handlers:
+   - name: Start Nginx
+     service: name=nginx state=started
+   - name: Restart Nginx
+     service: name=nginx state=restarted

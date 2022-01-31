@@ -1,0 +1,24 @@
+---
+- name: Define o arquivo de configuracao do servidor Nginx no Debian/Ubuntu
+  when: ansible_os_family == "Debian"
+  template:
+    src: nginx-debian.conf.j2
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Restart Nginx
+  tags: balancer
+
+- name: Define o arquivo de configuracao do servidor Nginx no RedHat/CentOS
+  when: ansible_os_family == "RedHat"
+  template:
+    src: nginx-redhat.conf.j2
+    dest: /etc/nginx/nginx
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Restart Nginx
+  tags: balancer

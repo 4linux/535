@@ -1,0 +1,6 @@
+---
+- name: Define instalacao do servidor Nginx
+  import_tasks: install.yml
+
+- name: Define configuracao do servidor Nginx
+  import_tasks: configure.yml

@@ -1,0 +1,51 @@
+---
+- name: Define configuracao do servidor MySQL no Debian/Ubuntu
+  when: ansible_os_family == "Debian"
+  template:
+    src: mysql-debian.cnf.j2
+    dest: /etc/mysql/mariadb.conf.d/50-server.cnf
+    owner: root
+    group: root
+    mode: 0644
+  tags: banco
+
+- name: Define configuracao do servidor MySQL no RedHat/CentOS
+  when: ansible_os_family == "RedHat"
+  template:
+    src: mysql-redhat.cnf.j2
+    dest: /etc/my.cnf.d/server.cnf
+    owner: root
+    group: root
+    mode: 0644
+  tags: banco
+
+- name: Inicia servidor MySQL
+  when: ansible_os_family == "Debian"
+  service:
+    name: mariadb
+    state: started
+
+- name: Inicia servidor MySQL
+  when: ansible_os_family == "RedHat"
+  systemd:
+    name: mariadb
+    state: started
+  tags: banco
+
+- name: Define o arquivo .my.cnf
+  copy:
+    src: root_pass.cnf
+    dest: /root/.my.cnf
+    owner: root
+    group: root
+    mode: 0600
+  tags: banco
+
+- name: Define o arquivo dump.sql
+  copy:
+    src: dump.sql
+    dest: /tmp
+    owner: root
+    group: root
+    mode: 0644
+  tags: banco

@@ -1,0 +1,20 @@
+---
+- name: Start NFS Ubuntu
+  when: ansible_os_family == "Debian"
+  service:
+    name: nfs-kernel-server
+    state: started
+
+- name: Restart NFS Ubuntu
+  when: ansible_os_family == "Debian"
+  ansible.builtin.command: "exportfs -va"
+
+- name: Start NFS CentOS
+  when: ansible_os_family == "RedHat"
+  service:
+    name: nfs-server
+    state: started
+
+- name: Restart NFS CentOS
+  when: ansible_os_family == "RedHat"
+  ansible.builtin.command: "exportfs -va"

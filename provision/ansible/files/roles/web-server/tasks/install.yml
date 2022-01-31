@@ -1,0 +1,31 @@
+---
+- name: Inclui variaveis para distribuicoes Linux
+  include_vars: "{{ ansible_os_family }}.yml"
+  tags: web
+
+- name: Instala Webserver Apache no Debian/Ubuntu
+  when: ansible_os_family == "Debian"
+  apt:
+    name: "{{ packages_debian }}"
+    state: present
+    update_cache: true
+  notify:
+    - Start Apache
+  tags: web
+
+- name: Instala Webserver Apache no RedHat/CentOS
+  when: ansible_os_family == "RedHat"
+  yum:
+    name: "{{ packages_redhat }}"
+    state: present
+  notify:
+    - Start Httpd
+  tags: web
+
+- name: Inicia e ativa na inicializacao o servico httpd
+  when: ansible_os_family == "RedHat"
+  systemd:
+    name: httpd
+    state: started
+    enabled: true
+  tags: web

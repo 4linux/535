@@ -1,0 +1,9 @@
+---
+- hosts: local
+  tasks:
+   - name: Instala pacote NTP
+     apt: name=ntp state=present update_cache=true
+     register: ntp_installed
+   - name: Define o arquivo de configuracao do servidor NTP
+     when: ntp_installed is succeeded
+     copy: src=/home/suporte/playbooks/ntp.conf dest=/etc/ntp.conf owner=root group=root mode=0644

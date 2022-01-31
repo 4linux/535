@@ -1,0 +1,9 @@
+---
+- name: Define instalacao do servidor MySQL
+  import_tasks: install.yml
+
+- name: Define configuracao do servidor MySQL
+  import_tasks: configure.yml
+
+- name: Adiciona, banco e tabelas no MySQL
+  import_tasks: database.yml

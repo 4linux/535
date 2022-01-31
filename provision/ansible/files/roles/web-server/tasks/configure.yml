@@ -1,0 +1,50 @@
+---
+- name: Monta diretorio site do servidor NFS
+  mount:
+    src: 172.16.0.200:/opt/site
+    path: /var/www/html
+    opts: defaults
+    state: mounted
+    fstype: nfs
+  tags: web
+
+- name: Verifica se arquivo banco.php existe
+  stat:
+    path: /var/www/html/include/banco.php
+  register: banco_php_file
+
+- name: Define a configuracao do arquivo banco.php Debian/Ubuntu
+  when: ansible_os_family == "Debian" and not banco_php_file.stat.exists
+  template:
+    src: banco.php.j2
+    dest: /var/www/html/include/banco.php
+    owner: www-data
+    group: www-data
+    mode: 0644
+  notify:
+    - Restart Apache
+  tags: web
+
+- name: Define a configuracao do arquivo banco.php RedHat/CentOS
+  when: ansible_os_family == "RedHat" and not banco_php_file.stat.exists
+  template:
+    src: banco.php.j2
+    dest: /var/www/html/include/banco.php
+    owner: apache
+    group: apache
+    mode: 0644
+  notify:
+    - Restart Httpd
+  tags: web
+
+- name: Verifica se arquivo index.html existe
+  stat:
+    path: /var/www/html/index.html
+  register: index_file
+
+- name: Remove o arquivo index.html
+  when: index_file.stat.exists
+  file:
+    path: /var/www/html/index.html
+    state: absent
+  tags: web

@@ -1,0 +1,6 @@
+---
+- name: Define instalacao do servidor NFS
+  import_tasks: install.yml
+
+- name: Define configuracao do servidor NFS
+  import_tasks: configure.yml

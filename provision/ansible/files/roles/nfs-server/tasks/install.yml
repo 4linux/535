@@ -1,0 +1,27 @@
+---
+- name: Instala servidor NFS no Debian/Ubuntu
+  when: ansible_os_family == "Debian"
+  apt:
+    name: nfs-kernel-server
+    state: present
+    update_cache: yes
+  notify:
+    - Start NFS Ubuntu
+  tags: nfs
+
+- name: Instala servidor NFS no RedHat/CentOS
+  when: ansible_os_family == "RedHat"
+  yum:
+    name: nfs-utils
+    state: present
+  notify:
+    - Start NFS CentOS
+  tags: nfs
+
+- name: Inicia e ativa na inicializacao o servico NFS
+  when: ansible_os_family == "RedHat"
+  systemd:
+    name: nfs-server
+    state: started
+    enabled: yes
+  tags: nfs

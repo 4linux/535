@@ -1,0 +1,2 @@
+/opt/site 172.16.0.0/16(rw,no_root_squash,no_subtree_check)
+/opt/site 172.17.0.0/16(rw,no_root_squash,no_subtree_check)

@@ -1,0 +1,43 @@
+---
+- name: Inicia o serviço rpcbind
+  service:
+    name: rpcbind
+    state: started
+
+- name: Define o arquivo de configuracao do servidor NFS no Debian/Ubuntu
+  when: ansible_os_family == "Debian"
+  copy:
+    src: exports
+    dest: /etc/exports
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Restart NFS Ubuntu
+  tags: nfs
+
+- name: Define o arquivo de configuracao do servidor NFS no RedHat/CentOS
+  when: ansible_os_family == "RedHat"
+  copy:
+    src: exports
+    dest: /etc/exports
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Restart NFS CentOS
+  tags: nfs
+
+- name: Verifica se diretorio /opt/site/admin existe
+  stat:
+    path: /opt/site/admin
+  register: site_directory
+
+- name: Criando diretorio site
+  when: not site_directory.stat.exists
+  copy:
+    src: site/
+    dest: /opt/site
+    owner: root
+    group: root
+  tags: nfs
