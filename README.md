@@ -39,8 +39,6 @@ Para criar o laboratório é necessário fazer o `git clone` desse repositório 
 ```bash
 git clone https://github.com/4linux/513
 cd 513/
-vagrant plugin install winrm
-vagrant plugin install winrm-elevated
 vagrant up
 ```
 
