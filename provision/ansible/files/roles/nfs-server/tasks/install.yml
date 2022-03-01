@@ -4,7 +4,7 @@
   apt:
     name: nfs-kernel-server
     state: present
-    update_cache: yes
+    update_cache: true
   notify:
     - Start NFS Ubuntu
   tags: nfs
@@ -23,5 +23,5 @@
   systemd:
     name: nfs-server
     state: started
-    enabled: yes
+    enabled: true
   tags: nfs

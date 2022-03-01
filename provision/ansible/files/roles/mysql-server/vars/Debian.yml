@@ -1,4 +1,4 @@
 ---
 packages_debian:
-  - python-mysqldb
+  - python3-mysqldb
   - mariadb-server

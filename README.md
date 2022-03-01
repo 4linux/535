@@ -23,11 +23,11 @@ Nesse laboratório, que está centralizado no arquivo [Vagrantfile][7], sera cri
 
 Nome       | vCPUs | Memoria RAM | IP            | S.O.¹           
 ---------- |:-----:|:-----------:|:-------------:|:---------------:
-ansible-server     | 1     | 2048MB | 172.16.0.200 | ubuntu-20.04
-web-server1     | 1     | 1024MB | 172.16.0.201 | ubuntu-20.04
-web-server2     | 1     | 1024MB | 172.16.0.202 | centos-8.5
-dbserver     | 1     | 1024MB | 172.16.0.203 | debian-10.11
-winclient     | 1     | 2048MB | 172.16.0.204 | windows-10
+ansible-server     | 1     | 2560MB | 172.16.0.199 | ubuntu-20.04
+balancer     | 1     | 512MB | 172.16.0.200 | centos-8.5
+web-server1     | 1     | 512MB | 172.16.0.201 | ubuntu-20.04
+web-server2     | 1     | 512MB | 172.16.0.202 | centos-8.5
+dbserver     | 1     | 512MB | 172.16.0.203 | debian-10.11
 
 > **¹**: Esses Sistemas operacionais estão sendo utilizado no formato de Boxes, é a forma como o vagrant chama as imagens do sistema operacional utilizado.
 

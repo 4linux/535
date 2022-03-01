@@ -1,4 +1,4 @@
 ---
 - hosts: balancer
   roles:
-    - nfs-server
+    - balancer

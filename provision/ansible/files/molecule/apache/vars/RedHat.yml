@@ -1,5 +1,3 @@
 ---
 packages_redhat:
   - httpd
-  - php
-  - php-mysqlnd

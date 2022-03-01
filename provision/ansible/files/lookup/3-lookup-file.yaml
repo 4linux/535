@@ -1,0 +1,24 @@
+---
+- hosts: webservers
+  pre_tasks:
+  - name: Adiciona usuario devops
+    user:
+      name: devops
+      state: present
+  - name: Adicionar diretório .ssh
+    file:
+      dest: /home/devops/.ssh
+      state: directory
+      owner: devops
+      group: devops
+  - name: Gera par de chaves SSH
+    openssh_keypair:
+      path: /home/devops/.ssh/id_rsa
+      owner: devops
+      group: devops
+  tasks:
+  - name: Define acesso SSH via chave usando Lookup
+    authorized_key:
+      user: devops
+      state: present
+      key: "{{ lookup('file', '/home/suporte/chaves/chave_rsa.pub') }}"

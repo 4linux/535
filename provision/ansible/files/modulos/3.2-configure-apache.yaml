@@ -1,3 +1,4 @@
+---
 - name: Remove o arquivo index.html
   when:
     - ansible_os_family == "Debian"
@@ -9,10 +10,19 @@
   when:
     - ansible_os_family == "Debian"
     - php_packages_ubuntu_installed is succeeded
-  copy: src=/home/suporte/modulos/files/web/index.php dest=/var/www/html/index.php owner=www-data group=www-data mode=0644
-
+  copy: 
+    src: /home/suporte/modulos/files/web/index.php
+    dest: /var/www/html/index.php
+    owner: www-data
+    group: www-data
+    mode: 0644
 - name: Define o arquivo de configuração para testar o suporte PHP em Distribuições RedHat/CentOS
   when:
     - ansible_os_family == "RedHat"
     - php_packages_centos_installed is succeeded
-  copy: src=/home/suporte/modulos/files/web/index.php dest=/var/www/html/index.php owner=apache group=apache mode=0644
+  copy:
+    src: /home/suporte/modulos/files/web/index.php
+    dest: /var/www/html/index.php
+    owner: apache
+    group: apache
+    mode: 0644

@@ -1,0 +1,8 @@
+---
+- hosts: local
+  name: Exibir conteúdo de um arquivo através do Lookup
+  vars:
+    issue_net_value: "{{ lookup('file', '/etc/issue.net') }}"
+  tasks:
+  - debug:
+      msg: "O valor do arquivo issue.net is {{ issue_net_value }}"

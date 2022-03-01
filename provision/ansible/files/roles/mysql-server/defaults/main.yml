@@ -1,2 +1,2 @@
 ---
-# defaults file for mysql-server
+address: 0.0.0.0

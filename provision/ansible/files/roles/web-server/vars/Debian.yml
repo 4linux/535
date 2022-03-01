@@ -4,4 +4,3 @@ packages_debian:
   - php
   - php-mysql
   - libapache2-mod-php
-  - nfs-common

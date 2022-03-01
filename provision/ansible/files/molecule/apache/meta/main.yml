@@ -1,8 +1,8 @@
 ---
 galaxy_info:
-  role_name: nfs_server
+  role_name: apache
   author: 4Linux DevOps
-  description: Instalacao e Configuracao do servidor NFS
+  description: Instalação e Configuração do servidor Apache com Molecule
   company: 4Linux
   license: GPLv3
   min_ansible_version: 2.9
@@ -14,5 +14,5 @@ galaxy_info:
       versions:
         - 8
   galaxy_tags:
-    - nfs
+    - apache
 dependencies: []

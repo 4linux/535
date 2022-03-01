@@ -7,6 +7,8 @@
     owner: root
     group: root
     mode: 0644
+  notify:
+    - Restart MySQL-Debian
   tags: banco
 
 - name: Define configuracao do servidor MySQL no RedHat/CentOS
@@ -17,19 +19,8 @@
     owner: root
     group: root
     mode: 0644
-  tags: banco
-
-- name: Inicia servidor MySQL
-  when: ansible_os_family == "Debian"
-  service:
-    name: mariadb
-    state: started
-
-- name: Inicia servidor MySQL
-  when: ansible_os_family == "RedHat"
-  systemd:
-    name: mariadb
-    state: started
+  notify:
+    - Restart MySQL-RedHat
   tags: banco
 
 - name: Define o arquivo .my.cnf

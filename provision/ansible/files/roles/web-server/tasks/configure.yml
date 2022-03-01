@@ -23,7 +23,7 @@
     mode: 0644
   notify:
     - Restart Apache
-  tags: web
+  tags: web-debian
 
 - name: Define a configuracao do arquivo banco.php RedHat/CentOS
   when: ansible_os_family == "RedHat" and not banco_php_file.stat.exists
@@ -35,7 +35,7 @@
     mode: 0644
   notify:
     - Restart Httpd
-  tags: web
+  tags: web-redhat
 
 - name: Verifica se arquivo index.html existe
   stat:

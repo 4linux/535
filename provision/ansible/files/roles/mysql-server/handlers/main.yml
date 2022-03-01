@@ -1,1 +1,18 @@
 ---
+- name: Start MySQL-Debian
+  systemd:
+    name: mariadb
+    state: started
+- name: Start MySQL-RedHat
+  systemd:
+    name: mariadb-server
+    state: started
+- name: Restart MySQL-Debian
+  service:
+    name: mariadb
+    state: restarted
+- name: Start MySQL-RedHat
+  service:
+    name: mariadb-server
+    state: restarted
+    enable: true

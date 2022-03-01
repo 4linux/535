@@ -9,4 +9,4 @@
   - name: Testando o compartilhamento NFS
     shell: "showmount -e --no-headers"
     register: showmount_result
-    failed_when: showmount_result.stdout != "/opt/site 172.16.0.0/24"
+    failed_when: showmount_result.stdout != "/opt/site 172.17.0.0/16,172.16.0.0/16"

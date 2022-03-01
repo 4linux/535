@@ -8,12 +8,16 @@
   apt:
     name: "{{ packages_debian }}"
     state: present
-    update_cache: yes
+    update_cache: true
+  notify:
+    - Start MySQL-Debian
   tags: banco
 
 - name: Instala pacotes para servidor MySQL no RedHat/CentOS
   when: ansible_os_family == "RedHat"
-  yum:
+  dnf:
     name: "{{ packages_redhat }}"
     state: present
+  notify:
+    - Start MySQL-RedHat
   tags: banco

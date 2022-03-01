@@ -1,4 +1,13 @@
 ---
 - hosts: webservers
+  pre_tasks:
+  - name: Instala cliente NFS em distribuições baseadas no Debian
+    apt:
+      name: nfs-common
+    when: ansible_os_family == "Debian"
+  - name: Instala cliente NFS em distribuições baseadas no RedHat
+    dnf:
+      name: nfs-utils
+    when: ansible_os_family == "RedHat"
   roles:
     - web-server

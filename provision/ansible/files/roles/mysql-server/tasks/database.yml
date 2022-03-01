@@ -1,9 +1,9 @@
 ---
 - name: Configura senha do usuario root
   mysql_user:
-    check_implicit_admin: yes
     user: root
-    password: 4linux
+    password: "{{ mysql_root_password }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
   tags: banco
 
 - name: Cria banco de dados dexter500
@@ -22,15 +22,15 @@
   mysql_db:
     name: dexter500
     login_user: root
-    login_password: 4linux
+    login_password: "{{ mysql_root_password }}"
     target: /tmp/dump.sql
     state: import
   tags: banco
 
 - name: Adiciona usuario admin e configura privilegios
   mysql_user:
-    name: admin
-    password: 4linux
+    name: "{{ mysql_user }}"
+    password: "{{ mysql_password }}"
     host: "{{ item }}"
     state: present
     priv: "dexter500.*:ALL"

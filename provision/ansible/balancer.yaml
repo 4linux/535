@@ -18,17 +18,5 @@
     - name: Ajustando /etc/hosts
       lineinfile:
         path: /etc/hosts
-        line: "127.0.1.1	webserver1	webserver1"
+        line: "127.0.0.1	balancer	balancer"
         state: absent
-
-    - name: Configura o servidor SSH para permitir conexao por senha
-      ansible.builtin.replace:
-        path: /etc/ssh/sshd_config
-        regexp: '#PermitRootLogin prohibit-password'
-        replace: 'PermitRootLogin yes'
- 
-    - name: Reinicia o SSH
-      service:
-        name: sshd
-        daemon_reload: yes
-        state: restarted

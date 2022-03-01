@@ -4,7 +4,7 @@
   apt:
     name: nginx
     state: present
-    update_cache: yes
+    update_cache: true
   notify:
     - Start Nginx
   tags: balancer
@@ -23,5 +23,5 @@
   systemd:
     name: nginx
     state: started
-    enabled: yes
+    enabled: true
   tags: balancer

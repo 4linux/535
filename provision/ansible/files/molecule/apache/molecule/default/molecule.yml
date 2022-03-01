@@ -11,13 +11,6 @@ platforms:
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: true
-  - name: CentOS
-    image: geerlingguy/docker-centos8-ansible
-    pre_build_image: true
-    command: ${MOLECULE_DOCKER_COMMAND:-""}
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: true
 provisioner:
   name: ansible
 verifier:

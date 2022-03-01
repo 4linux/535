@@ -1,0 +1,11 @@
+---
+- name: Verifica se arquivo index.html existe
+  stat:
+    path: /var/www/html/index.html
+  register: index_file
+  tags: web
+- name: Creating a file with content
+  copy:
+    dest: /var/www/html/index.html
+    content: |
+      Pagina de teste do Apache

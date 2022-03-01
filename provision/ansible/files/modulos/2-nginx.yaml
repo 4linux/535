@@ -1,19 +1,32 @@
----
-- hosts: local
+- hosts: balancer
+  pre_tasks:
+  - name: Instala dependências
+    dnf:
+      name: epel-release
+      state: present
   tasks:
-   - name: Instala servidor Nginx
-     apt:
+  - name: Instala servidor Nginx
+    dnf:
        name: nginx
        state: present
-       update_cache: true
-     register: nginx_installed
-     notify:
-     - Start Nginx
-   - name: Define o arquivo de configuracao do servidor Nginx
-     when: nginx_installed is succeeded
-     copy: src=/home/suporte/modulos/files/nginx/nginx.conf dest=/etc/nginx/nginx.conf owner=root group=root mode=0644
-     notify:
+    register: nginx_installed
+    notify:
+      - Start Nginx
+  - name: Define o arquivo de configuracao do servidor Nginx
+    when: nginx_installed is succeeded
+    copy:
+      src: /home/suporte/modulos/files/nginx/nginx.conf
+      dest: /etc/nginx/nginx.conf
+      owner: root
+      group: root
+      mode: 0644
+    notify:
       - Restart Nginx
+  post_tasks:
+  - name: Testa a instalação
+    uri:
+      url: http://172.16.0.200
+
   handlers:
    - name: Start Nginx
      service: name=nginx state=started

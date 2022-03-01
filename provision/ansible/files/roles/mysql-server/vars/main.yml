@@ -1,2 +1,4 @@
 ---
-# vars file for mysql-server
+mysql_root_password: supersenhasecreta
+mysql_password: 4linux
+mysql_user: admin
