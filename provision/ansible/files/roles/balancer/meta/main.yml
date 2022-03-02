@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  role_name: web_balancer
+  role_name: balancer
   author: 4Linux DevOps
   description: Instalacao e Configuracao do servidor Nginx Load Balancer
   company: 4Linux
