@@ -31,9 +31,9 @@
         src: files/docker-nfs-server-ubuntu
         dest: /home/suporte
         
-    - name: Criando diretório kitchen
+    - name: Criando diretório lookup
       synchronize:
-        src: files/kitchen
+        src: files/lookup
         dest: /home/suporte
 
     - name: Criando diretório modulos
