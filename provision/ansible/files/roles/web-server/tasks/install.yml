@@ -8,7 +8,6 @@
   apt:
     name: "{{ packages_debian }}"
     state: present
-    update_cache: true
   notify:
     - Start Apache
   tags: web-debian
