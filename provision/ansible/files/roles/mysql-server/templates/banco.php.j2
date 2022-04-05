@@ -1,5 +1,5 @@
 <?php
-		$link = mysqli_connect ( '{{ database }}', 'admin', '4linux', 'dexter500') or die ("Cloud not connect to mysql");
+		$link = mysqli_connect ( '{{ database }}', 'admin', '4linux', 'dexter500') or die ("Could not connect to mysql");
 			
 	function inserir($tabela, $dados){
 		foreach( $dados as $campo => $valor ){//Separa o post em campos e valores
@@ -9,7 +9,7 @@
 		$campos  = implode( ",", $campos );//Converte o array em string separando por virgula (Campos)
 		$valores = implode( ",", $valores );//Converte o array em string separando por virgula (Valores)
 		$sql = "insert into $tabela ( $campos ) values ( $valores )";
-		$link = mysqli_connect ( '{{ database }}', 'admin', '4linux', 'dexter500') or die ("Cloud not connect to mysql");
+		$link = mysqli_connect ( '{{ database }}', 'admin', '4linux', 'dexter500') or die ("Could not connect to mysql");
 		return mysqli_query( $link, $sql );//Insere o registro no banco
 	}
 	function alterar($tabela, $dados, $onde){
@@ -19,7 +19,7 @@
 			$sets = implode( ",", $sets );
 			$sql = "update $tabela set $sets where $onde ";
 			//die($sql);
-			$link = mysqli_connect ( '{{ database }}', 'admin', '4linux', 'dexter500') or die ("Cloud not connect to mysql");
+			$link = mysqli_connect ( '{{ database }}', 'admin', '4linux', 'dexter500') or die ("Could not connect to mysql");
 			return mysqli_query( $link, $sql );
 	}
 	function excluir($tabela, $onde=null) {
@@ -27,7 +27,7 @@
 		if( $onde ){
 			$sql .= " where $onde";
 		}
-		$link = mysqli_connect ( '{{ database }}', 'admin', '4linux', 'dexter500') or die ("Cloud not connect to mysql");
+		$link = mysqli_connect ( '{{ database }}', 'admin', '4linux', 'dexter500') or die ("Could not connect to mysql");
 		return mysqli_query( $link, $sql );
 	}
 	function listar($tabela, $campos = "*", $onde=null, $filtro=null, $ordem=null, $limite=null){
@@ -48,7 +48,7 @@
                         $sql .= " limit $limite";
                 }
                 $registros = [];
-				$link = mysqli_connect ( '{{ database }}', 'admin', '4linux', 'dexter500') or die ("Cloud not connect to mysql");
+				$link = mysqli_connect ( '{{ database }}', 'admin', '4linux', 'dexter500') or die ("Could not connect to mysql");
                 $query = mysqli_query( $link, $sql );
 				
 				while($registro = mysqli_fetch_array($query)){
@@ -59,7 +59,7 @@
  }
 	function ver($tabela, $onde, $campos = "*"){
 			$sql = "select $campos from $tabela where $onde";
-			$link = mysqli_connect ( '{{ database }}', 'admin', '4linux', 'dexter500') or die ("Cloud not connect to mysql");
+			$link = mysqli_connect ( '{{ database }}', 'admin', '4linux', 'dexter500') or die ("Could not connect to mysql");
 			$query = mysqli_query( $link, $sql ); //prepara a consulta
 			return mysqli_fetch_array( $query );//determina o tipo de retorno
 }

@@ -1,18 +1,18 @@
 ---
 - hosts: local
   tasks:
-   - name: Adiciona chave GPG para o repositório oficial do Docker
-     ansible.builtin.apt_key:
-       url: https://download.docker.com/linux/ubuntu/gpg
-       state: present
-     register: apt_key_add
-   - name: Adiciona repositório do Docker
-     when: apt_key_add is succeeded
-     ansible.builtin.apt_repository:
-       repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
-       state: present
-   - name: Instala o Docker
-     apt:
-       name: docker-ce
-       state: present
-       update_cache: true    
+    - name: Adiciona chave GPG para o repositório oficial do Docker
+      ansible.builtin.apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+      register: apt_key_add
+    - name: Adiciona repositório do Docker
+      when: apt_key_add is succeeded
+      ansible.builtin.apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+        state: present
+    - name: Instala o Docker
+      apt:
+        name: docker-ce
+        state: present
+        update_cache: true    
