@@ -1,0 +1,8 @@
+---
+- name: Adiciona usuario HelpDesk
+  user: name=helpdesk state=present shell=/bin/bash password=$1$Vf3jj9E3$DTibRWkRvP8wJqcDLJNzT1
+  tags: users
+
+- name: Adiciona usuario DevOps
+  user: name=devops state=present shell=/bin/bash password=$1$Vf3jj9E3$DTibRWkRvP8wJqcDLJNzT1
+  tags: users

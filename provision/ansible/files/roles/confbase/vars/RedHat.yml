@@ -1,0 +1,10 @@
+---
+packages_redhat:
+  - tzdata
+  - bind-utils
+  - unzip
+  - bzip2
+  - vim-enhanced
+  - mlocate
+  - htop
+  - nfs-utils

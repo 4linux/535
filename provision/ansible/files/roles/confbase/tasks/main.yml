@@ -1,0 +1,9 @@
+---
+- name: Adiciona usuarios HelpDesk e DevOps
+  import_tasks: users.yml
+
+- name: Instala pacotes base
+  import_tasks: packages.yml
+
+- name: Padroniza arquivo /etc/hosts
+  import_tasks: hosts.yml

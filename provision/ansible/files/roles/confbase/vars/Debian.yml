@@ -1,0 +1,11 @@
+---
+packages_debian:
+  - tzdata
+  - dnsutils
+  - bash-completion
+  - unzip
+  - bzip2
+  - htop
+  - vim
+  - mlocate
+  - nfs-common
