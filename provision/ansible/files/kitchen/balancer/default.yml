@@ -1,0 +1,4 @@
+---
+- hosts: localhost
+  roles:
+    - { role: balancer, balancer: 172.16.0.200 }

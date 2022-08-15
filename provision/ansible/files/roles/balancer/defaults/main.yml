@@ -1,4 +1,3 @@
 ---
-balancer: 172.16.0.200
 webserver01: 172.16.0.201
 webserver02: 172.16.0.202

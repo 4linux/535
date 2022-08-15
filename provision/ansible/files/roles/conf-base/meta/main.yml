@@ -4,19 +4,16 @@ galaxy_info:
   description: Configuracao Base de usuarios, pacotes e hosts
   company: 4Linux
   license: GPLv3
-  min_ansible_version: 1.2
-  github_branch: homolog
+  min_ansible_version: 2.9
   platforms:
-  - name: Debian
-    versions:
-    - stretch
-  - name: EL
-    versions:
-    - 7
-
+    - name: Ubuntu
+      versions:
+        - focal
+    - name: EL
+      versions:
+        - 8
   galaxy_tags:
-  -  users
-  -  packages
-  -  hosts
-
+    -  users
+    -  packages
+    -  hosts
 dependencies: []

@@ -1,3 +1,6 @@
 pacotes:
   - elinks
   - wget  
+  - curl  
+  - htop  
+  - vim  

@@ -1,0 +1,20 @@
+---                                                                             
+- hosts: local                                                               
+  gather_facts: no                                                              
+  tasks:                                                                        
+    - name: Verificando status da Aplicação Dexter                                  
+      uri:                                                                      
+        url: "http://balancer"                                                  
+        return_content: yes                                                     
+      register: response                                                        
+    - name: Response
+      debug:                                                            
+        msg: "Aplicação Dexter: [200] OK"                                       
+      when: 
+        - response.status == 200
+        - '"<p>A transportadora Dexter Courier" in response.content'
+    - name: Response
+      debug:
+        msg: "Aplicação Dexter: [ERR] Could not connect to mysql"      
+      when: '"Could not connect to mysql" in response.content'
+      failed_when: '"Could not connect to mysql" in response.content'

@@ -1,4 +1,4 @@
 ---
-- hosts: balancer
+- hosts: lb
   roles:
-    - balancer
+    -  balancer

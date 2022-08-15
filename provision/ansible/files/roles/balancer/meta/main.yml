@@ -9,10 +9,11 @@ galaxy_info:
   platforms:
     - name: Ubuntu
       versions:
-        - 20.04
-    - name: CentOS
+        - focal
+    - name: EL
       versions:
         - 8
   galaxy_tags:
     - balancer
-dependencies: []
+dependencies:
+  - conf-base        

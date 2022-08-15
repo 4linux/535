@@ -11,8 +11,10 @@
      ansible.builtin.apt_repository:
        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
        state: present
+     register: add_repo_docker
    - name: Instala o Docker
+     when: add_repo_docker is succeeded
      apt:
        name: docker-ce
        state: present
-       update_cache: true    
+       update_cache: true 

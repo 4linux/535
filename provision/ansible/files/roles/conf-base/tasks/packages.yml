@@ -1,18 +1,14 @@
 ---
-- name: Inclui variaveis para distribuicoes Linux
-  include_vars: "{{ ansible_os_family }}.yml"
-  tags: packages
-
 - name: Instala pacotes base no Debian/Ubuntu
   when: ansible_os_family == "Debian"
   apt:
-    name: "{{packages_debian}}"
-    state: installed
+    name: "{{ packages_debian }}"
+    state: present
   tags: packages
 
 - name: Instala pacotes base no RedHat/CentOS
   when: ansible_os_family == "RedHat"
   yum:
-    name: "{{packages_redhat}}"
-    state: installed
+    name: "{{ packages_redhat }}"
+    state: present
   tags: packages

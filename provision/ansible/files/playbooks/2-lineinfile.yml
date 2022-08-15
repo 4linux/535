@@ -1,0 +1,9 @@
+---
+- hosts: local
+  tasks:
+    - name: Garantir permissão de superusuário para o usuário helpdesk
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        insertafter: "suporte ALL=(ALL) NOPASSWD: ALL"
+        line: "helpdesk ALL=(ALL) NOPASSWD: ALL"
