@@ -14,7 +14,6 @@ vms = {
 Vagrant.configure('2') do |config|
 
   config.vm.box_check_update = false
-
   vms.each do |name, conf|
     config.vm.define "#{name}" do |k|
       k.vm.box = "#{conf['box']}"
@@ -29,5 +28,17 @@ Vagrant.configure('2') do |config|
         ansible.compatibility_mode = '2.0'
       end
     end
+  end
+    config.vm.define "winclient" do |win10|
+      win10.vm.box = "devopsbox/windows-10"
+      win10.vm.network 'private_network', ip: "172.16.0.204"
+      win10.vm.box_version = "1.0"
+      win10.vm.guest = :windows
+      win10.vm.provider 'virtualbox' do |vb|
+        vb.memory = "2048"
+    end
+      win10.vm.communicator = :winrm
+        win10.winrm.username = "vagrant"
+        win10.winrm.password = "vagrant"
   end
 end
