@@ -1,4 +1,4 @@
-Laboratório 513 - Gerenciar Ambientes Automatizados com Ansible
+Laboratório 535 - Gerenciar Ambientes Automatizados com Ansible
 =============================
 
 Repositório para armazenar o Laboratório do curso de ansible da [4Linux][1]
@@ -37,8 +37,8 @@ Criação do Laboratório
 Para criar o laboratório é necessário fazer o `git clone` desse repositório e, dentro da pasta baixada realizar a execução do `vagrant up`, conforme abaixo:
 
 ```bash
-git clone https://github.com/4linux/513
-cd 513/
+git clone https://github.com/4linux/535
+cd 535/
 vagrant up
 ```
 
