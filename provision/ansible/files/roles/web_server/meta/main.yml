@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   role_name: web_server
-  author: 4Linux DevOps
+  author: sua_conta_github
   description: Instalação e Configuração do servidor Apache
   company: 4Linux
   license: GPLv3
@@ -16,4 +16,4 @@ galaxy_info:
   galaxy_tags:
     - apache
 dependencies:
-  - conf-base        
+  - conf_base

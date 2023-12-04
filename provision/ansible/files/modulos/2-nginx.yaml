@@ -29,6 +29,11 @@
 
   handlers:
    - name: Start Nginx
-     service: name=nginx state=started enabled=yes
+     service:
+       name: nginx
+       state: started
+       enabled: yes
    - name: Restart Nginx
-     service: name=nginx state=restarted
+     service:
+       name: nginx
+       state: restarted

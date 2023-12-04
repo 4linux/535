@@ -1,0 +1,64 @@
+dn: ou=Users,dc=example,dc=org
+objectClass: organizationalUnit
+ou: Users
+
+dn: ou=Groups,dc=example,dc=org
+objectClass: organizationalUnit
+ou: Groups
+
+dn: uid=admin,ou=Users,dc=example,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Admin
+sn: Linux
+userPassword: {SSHA}nVPnjhm1xR8aRA03payFZfVS7KykeHXk
+loginShell: /bin/bash
+uidNumber: 1010
+gidNumber: 1010
+homeDirectory: /home/admin
+
+dn: uid=developer,ou=Users,dc=example,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Developer
+sn: Linux
+userPassword: {SSHA}nVPnjhm1xR8aRA03payFZfVS7KykeHXk
+loginShell: /bin/bash
+uidNumber: 1020
+gidNumber: 1020
+homeDirectory: /home/developer
+
+dn: uid=suporte,ou=Users,dc=example,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Suporte
+sn: Linux
+userPassword: {SSHA}nVPnjhm1xR8aRA03payFZfVS7KykeHXk
+loginShell: /bin/bash
+uidNumber: 1030
+gidNumber: 1030
+homeDirectory: /home/suporte
+
+dn: uid=analista,ou=Users,dc=example,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Analista
+sn: Linux
+userPassword: {SSHA}nVPnjhm1xR8aRA03payFZfVS7KykeHXk
+loginShell: /bin/bash
+uidNumber: 1040
+gidNumber: 1040
+homeDirectory: /home/analista
+
+dn: cn=devops,ou=Groups,dc=example,dc=org
+objectClass: posixGroup
+cn: DevOps
+gidNumber: 1080
+memberUid: developer
+memberUid: suporte
+memberUid: admin
+memberUid: analista

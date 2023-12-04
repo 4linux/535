@@ -1,7 +1,11 @@
 ---
 - hosts: local
   vars:
-    - usuario: linus
+    usuario: linus
   tasks:
-   - name: Adicionar usuario
-     user: name={{ usuario }} state=present shell=/bin/bash password=$1$i5CwO/2J$JIaH55NqG10CDpYLqLAZf/
+    - name: Adiciona usuário
+      user:
+        name: "{{ usuario }}"
+        state: present
+        shell: /bin/bash
+        password: $1$i5CwO/2J$JIaH55NqG10CDpYLqLAZf/

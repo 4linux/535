@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   role_name: apache
-  author: 4Linux DevOps
+  author: sua_conta_github
   description: Instalação e Configuração do servidor Apache com Molecule
   company: 4Linux
   license: GPLv3

@@ -1,4 +1,4 @@
 ---
 - hosts: lb
   roles:
-    - nfs-server
+    - nfs_server

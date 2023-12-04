@@ -4,6 +4,7 @@
   apt:
     name: "{{ packages_debian }}"
     state: present
+    update_cache: true
   tags: packages
 
 - name: Instala pacotes base no RedHat/CentOS

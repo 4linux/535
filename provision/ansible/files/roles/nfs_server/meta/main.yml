@@ -1,7 +1,8 @@
 ---
 galaxy_info:
-  author: 4Linux DevOps
-  description: Configuracao Base de usuarios, pacotes e hosts
+  role_name: nfs_server
+  author: sua_conta_github
+  description: Instalacao e Configuracao do servidor NFS
   company: 4Linux
   license: GPLv3
   min_ansible_version: 2.9
@@ -13,7 +14,6 @@ galaxy_info:
       versions:
         - 8
   galaxy_tags:
-    -  users
-    -  packages
-    -  hosts
-dependencies: []
+    - nfs
+dependencies:
+  - conf_base

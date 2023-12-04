@@ -1,5 +1,5 @@
 ---
-- name: Padroniza arquivo /etc/hosts
+- name: Padroniza o arquivo /etc/hosts
   import_tasks: hosts.yml
 
 - name: Instala pacotes base

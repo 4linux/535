@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   role_name: balancer
-  author: 4Linux DevOps
+  author: sua_conta_github
   description: Instalacao e Configuracao do servidor Nginx Load Balancer
   company: 4Linux
   license: GPLv3
@@ -16,4 +16,4 @@ galaxy_info:
   galaxy_tags:
     - balancer
 dependencies:
-  - conf-base        
+  - conf_base

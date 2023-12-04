@@ -1,8 +1,8 @@
 ---
 galaxy_info:
-  role_name: mysql_server
-  author: 4Linux DevOps
-  description: Instalacao e Configuracao do servidor MySQL
+  role_name: conf_base
+  author: sua_conta_github
+  description: Configuracao Base de usuários, pacotes e hosts
   company: 4Linux
   license: GPLv3
   min_ansible_version: 2.9
@@ -14,6 +14,7 @@ galaxy_info:
       versions:
         - 8
   galaxy_tags:
-    - mysql
-dependencies:
-  - conf-base        
+    -  users
+    -  packages
+    -  hosts
+dependencies: []

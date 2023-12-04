@@ -1,5 +1,5 @@
 ---
-- name: Adiciona usuario HelpDesk
+- name: Adiciona o usuário HelpDesk
   user:
     name: helpdesk
     state: present
@@ -7,7 +7,7 @@
     password: $1$Vf3jj9E3$DTibRWkRvP8wJqcDLJNzT1
   tags: users
 
-- name: Adiciona usuario DevOps
+- name: Adiciona o usuário DevOps
   user:
     name: devops
     state: present
