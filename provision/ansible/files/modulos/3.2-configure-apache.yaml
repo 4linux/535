@@ -3,26 +3,26 @@
   when:
     - ansible_os_family == "Debian"
     - php_packages_ubuntu_installed is succeeded
-  file:
+  ansible.builtin.file:
     path: /var/www/html/index.html
     state: absent
 - name: Define o arquivo de configuração para testar suporte PHP em Distribuições Debian/Ubuntu
   when:
     - ansible_os_family == "Debian"
     - php_packages_ubuntu_installed is succeeded
-  copy: 
+  ansible.builtin.copy: 
     src: /home/suporte/modulos/files/web/index.php
     dest: /var/www/html/index.php
     owner: www-data
     group: www-data
-    mode: 0644
+    mode: "0644"
 - name: Define o arquivo de configuração para testar o suporte PHP em Distribuições RedHat/CentOS
   when:
     - ansible_os_family == "RedHat"
     - php_packages_centos_installed is succeeded
-  copy:
+  ansible.builtin.copy:
     src: /home/suporte/modulos/files/web/index.php
     dest: /var/www/html/index.php
     owner: apache
     group: apache
-    mode: 0644
+    mode: "0644"

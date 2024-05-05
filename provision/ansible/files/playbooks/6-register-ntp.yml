@@ -2,16 +2,16 @@
 - hosts: local
   tasks:
     - name: Instala o pacote NTP
-      apt:
+      ansible.builtin.apt:
         name: ntp
         state: present
         update_cache: true
       register: ntp_installed
     - name: Define o arquivo de configuracao do servidor NTP
       when: ntp_installed is succeeded
-      copy:
+      ansible.builtin.copy:
         src: /home/suporte/playbooks/ntp.conf
         dest: /etc/ntp.conf
         owner: root
         group: root
-        mode: 0644
+        mode: "0644"

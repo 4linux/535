@@ -4,5 +4,5 @@
   vars:
     issue_net_value: "{{ lookup('file', '/etc/issue.net') }}"
   tasks:
-  - debug:
+  - ansible.builtin.debug:
       msg: "O valor do arquivo issue.net is {{ issue_net_value }}"

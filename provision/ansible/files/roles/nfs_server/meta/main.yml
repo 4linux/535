@@ -5,15 +5,14 @@ galaxy_info:
   description: Instalacao e Configuracao do servidor NFS
   company: 4Linux
   license: GPLv3
-  min_ansible_version: 2.9
+  min_ansible_version: "2.12"
   platforms:
     - name: Ubuntu
       versions:
-        - focal
+        - "focal"
     - name: EL
       versions:
-        - 8
+        - "8"
   galaxy_tags:
     - nfs
-dependencies:
-  - conf_base
+dependencies: []

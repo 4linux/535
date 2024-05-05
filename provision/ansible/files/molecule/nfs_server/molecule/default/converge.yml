@@ -2,6 +2,6 @@
 - name: Converge
   hosts: all
   tasks:
-    - name: "Include nfs-server"
-      include_role:
-        name: "nfs-server"
+    - name: "Include nfs_server"
+      ansible.builtin.include_role:
+        name: "nfs_server"

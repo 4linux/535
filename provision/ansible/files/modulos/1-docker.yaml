@@ -14,7 +14,7 @@
      register: add_repo_docker
    - name: Instala o Docker
      when: add_repo_docker is succeeded
-     apt:
+     ansible.builtin.apt:
        name: docker-ce
        state: present
        update_cache: true 

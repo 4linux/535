@@ -1,11 +1,11 @@
 ---
 - name: Inclui variaveis para distribuicoes Linux
-  include_vars: "{{ ansible_os_family }}.yml"
+  ansible.builtin.include_vars: "{{ ansible_os_family }}.yml"
   tags: web
 
 - name: Instala Webserver Apache no Debian/Ubuntu
   when: ansible_os_family == "Debian"
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages_debian }}"
     state: present
     update_cache: true
@@ -15,7 +15,7 @@
 
 - name: Instala Webserver Apache no RedHat/CentOS
   when: ansible_os_family == "RedHat"
-  yum:
+  ansible.builtin.yum:
     name: "{{ packages_redhat }}"
     state: present
   notify:
@@ -24,7 +24,7 @@
 
 - name: Inicia e ativa na inicializacao o servico httpd
   when: ansible_os_family == "RedHat"
-  systemd:
+  ansible.builtin.systemd:
     name: httpd
     state: started
     enabled: true

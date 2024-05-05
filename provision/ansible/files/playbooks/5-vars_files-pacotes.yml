@@ -4,7 +4,7 @@
     - /home/suporte/playbooks/vars.yml
   tasks:
     - name: Instala pacotes através de variáveis
-      apt:
-        name: {{ pacotes }}
+      ansible.builtin.apt:
+        name: "{{ pacotes }}"
         state: present
         update_cache: true

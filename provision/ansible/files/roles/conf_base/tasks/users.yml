@@ -1,6 +1,6 @@
 ---
 - name: Adiciona o usuário HelpDesk
-  user:
+  ansible.builtin.user:
     name: helpdesk
     state: present
     shell: /bin/bash
@@ -8,7 +8,7 @@
   tags: users
 
 - name: Adiciona o usuário DevOps
-  user:
+  ansible.builtin.user:
     name: devops
     state: present
     shell: /bin/bash

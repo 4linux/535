@@ -2,7 +2,7 @@
 - hosts: local
   tasks:
     - name: Adiciona usuário helpdesk
-      user:
+      ansible.builtin.user:
         name: helpdesk
         state: present
         shell: /bin/bash

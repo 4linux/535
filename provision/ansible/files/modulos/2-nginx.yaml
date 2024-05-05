@@ -1,12 +1,12 @@
 - hosts: balancer
   pre_tasks:
   - name: Instala dependências
-    dnf:
+    ansible.builtin.dnf:
       name: epel-release
       state: present
   tasks:
   - name: Instala servidor Nginx
-    dnf:
+    ansible.builtin.dnf:
        name: nginx
        state: present
     register: nginx_installed
@@ -14,26 +14,26 @@
       - Start Nginx
   - name: Define o arquivo de configuracao do servidor Nginx
     when: nginx_installed is succeeded
-    copy:
+    ansible.builtin.copy:
       src: /home/suporte/modulos/files/nginx/nginx.conf
       dest: /etc/nginx/nginx.conf
       owner: root
       group: root
-      mode: 0644
+      mode: "0644"
     notify:
       - Restart Nginx
   post_tasks:
   - name: Testa a instalação
-    uri:
+    ansible.builtin.uri:
       url: http://172.16.0.200
 
   handlers:
    - name: Start Nginx
-     service:
+     ansible.builtin.service:
        name: nginx
        state: started
        enabled: yes
    - name: Restart Nginx
-     service:
+     ansible.builtin.service:
        name: nginx
        state: restarted

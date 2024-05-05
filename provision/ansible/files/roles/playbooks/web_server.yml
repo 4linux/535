@@ -2,13 +2,13 @@
 - hosts: webservers
   pre_tasks:
   - name: Instala cliente NFS em distribuições baseadas no Debian
-    apt:
+    ansible.builtin.apt:
       name: nfs-common
       state: present
       update_cache: true
     when: ansible_os_family == "Debian"
   - name: Instala cliente NFS em distribuições baseadas no RedHat
-    dnf:
+    ansible.builtin.dnf:
       name: nfs-utils
     when: ansible_os_family == "RedHat"
   roles:

@@ -1,20 +1,20 @@
 ---
 - name: Start Apache
-  service:
+  ansible.builtin.service:
     name: apache2
     state: started
 
 - name: Start Httpd
-  service:
+  ansible.builtin.service:
     name: httpd
     state: started
 
 - name: Restart Apache
-  service:
+  ansible.builtin.service:
     name: apache2
     state: restarted
 
 - name: Restart Httpd
-  service:
+  ansible.builtin.service:
     name: httpd
     state: restarted

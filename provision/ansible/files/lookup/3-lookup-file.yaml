@@ -2,11 +2,11 @@
 - hosts: webservers
   pre_tasks:
   - name: Adiciona usuario devops
-    user:
+    ansible.builtin.user:
       name: devops
       state: present
   - name: Adicionar diretório .ssh
-    file:
+    ansible.builtin.file:
       dest: /home/devops/.ssh
       state: directory
       owner: devops

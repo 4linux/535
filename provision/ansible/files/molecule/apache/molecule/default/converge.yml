@@ -2,6 +2,6 @@
 - name: Converge
   hosts: all
   tasks:
-    - name: "Include apache"
+    - name: "Include default.apache"
       include_role:
-        name: "apache"
+        name: "default.apache"

@@ -4,3 +4,4 @@ pacotes:
   - curl  
   - htop  
   - vim  
+  - tree  

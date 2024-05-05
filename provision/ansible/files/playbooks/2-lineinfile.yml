@@ -2,7 +2,7 @@
 - hosts: local
   tasks:
     - name: Garantir permissão de superusuário para o usuário helpdesk
-      lineinfile:
+      ansible.builtin.lineinfile:
         path: /etc/sudoers
         state: present
         insertafter: "suporte ALL=(ALL) NOPASSWD: ALL"

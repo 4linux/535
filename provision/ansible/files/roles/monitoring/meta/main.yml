@@ -1,8 +1,8 @@
 ---
 galaxy_info:
-  role_name: conf_base
+  role_name: monitoring
   author: sua_conta_github
-  description: Configuracao Base de usuários, pacotes e hosts
+  description: Monitoramento da Aplicação Dexter
   company: 4Linux
   license: GPLv3
   min_ansible_version: "2.12"
@@ -14,7 +14,5 @@ galaxy_info:
       versions:
         - "8"
   galaxy_tags:
-    - users
-    - packages
-    - hosts
+    - monitoring
 dependencies: []

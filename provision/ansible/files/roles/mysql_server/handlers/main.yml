@@ -1,18 +1,18 @@
 ---
 - name: Start MySQL-Debian
-  systemd:
+  ansible.builtin.systemd:
     name: mariadb
     state: started
 - name: Start MySQL-RedHat
-  systemd:
+  ansible.builtin.systemd:
     name: mariadb-server
     state: started
 - name: Restart MySQL-Debian
-  service:
+  ansible.builtin.systemd:
     name: mariadb
     state: restarted
 - name: Start MySQL-RedHat
-  service:
+  ansible.builtin.systemd:
     name: mariadb-server
     state: restarted
     enable: true

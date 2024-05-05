@@ -2,9 +2,9 @@
 - hosts: webservers
   tasks:
    - name: Inclui task de instalação do Apache
-     include_tasks: 3.1-install-apache.yaml
+     ansible.builtin.include_tasks: 3.1-install-apache.yaml
    - name: Inclui task de configuração do Apache
-     include_tasks: 3.2-configure-apache.yaml
+     ansible.builtin.include_tasks: 3.2-configure-apache.yaml
 
   handlers:
     - name: Restart Apache

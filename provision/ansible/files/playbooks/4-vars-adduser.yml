@@ -4,7 +4,7 @@
     usuario: linus
   tasks:
     - name: Adiciona usuário
-      user:
+      ansible.builtin.user:
         name: "{{ usuario }}"
         state: present
         shell: /bin/bash

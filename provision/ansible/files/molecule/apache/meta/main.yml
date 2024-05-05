@@ -1,18 +1,18 @@
 ---
 galaxy_info:
   role_name: apache
-  author: sua_conta_github
+  author: curso-4linux
   description: Instalação e Configuração do servidor Apache com Molecule
   company: 4Linux
   license: GPLv3
-  min_ansible_version: 2.9
+  min_ansible_version: "2.12"
   platforms:
     - name: Ubuntu
       versions:
         - focal
     - name: EL
       versions:
-        - 8
+        - "8"
   galaxy_tags:
     - apache
 dependencies: []

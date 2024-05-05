@@ -5,12 +5,12 @@
   vars:
     - expected_content: "Pagina de teste do Apache"
   tasks:
-  - name: Example assertion
-    assert:
-      that: true
-  - name: Testando o acesso ao servidor Apache
-    uri:
-      url: http://localhost
-      return_content: true
-    register: site
-    failed_when: "expected_content not in site.content"     
+    - name: Example assertion
+      ansible.builtin.assert:
+        that: true
+    - name: Testando o acesso ao servidor Apache
+      ansible.builtin.uri:
+        url: http://localhost
+        return_content: true
+      register: site
+      failed_when: "expected_content not in site.content"

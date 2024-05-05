@@ -1,7 +1,7 @@
 ---
 - name: Instala pacotes para suporte a PHP no Apache em Distribuições Debian/Ubuntu
   when: ansible_os_family == "Debian"
-  apt:
+  ansible.builtin.apt:
     name: "{{ item }}"
     state: present
     update_cache: true
@@ -14,7 +14,7 @@
     - Restart Apache
 - name: Instala pacotes para suporte a PHP no Apache em Distribuições RedHat/CentOS
   when: ansible_os_family == "RedHat"
-  dnf:
+  ansible.builtin.dnf:
     name: "{{ item }}"
     state: present
   loop:

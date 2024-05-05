@@ -1,0 +1,17 @@
+---
+- name: Verificando status da Aplicação Dexter
+  ansible.builtin.uri:
+    url: "http://balancer"
+    return_content: true
+  register: response
+- name: Response
+  ansible.builtin.debug:
+    msg: "Aplicação Dexter: [200] OK"
+  when:
+    - response.status == 200
+    - '"<p>A transportadora Dexter Courier" in response.content'
+- name: Response
+  ansible.builtin.debug:
+    msg: "Aplicação Dexter: [ERR] Could not connect to mysql"
+  when: '"Could not connect to mysql" in response.content'
+  failed_when: '"Could not connect to mysql" in response.content'

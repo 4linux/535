@@ -3,14 +3,14 @@
   tasks:
     - name: Instala o Apache no Debian/Ubuntu
       when: ansible_os_family == "Debian"
-      apt:
+      ansible.builtin.apt:
         name: apache2
         state: present
         update_cache: true
       register: apache2_installed
     - name: Instala o Apache no CentOS
       when: ansible_os_family == "RedHat"
-      yum:
+      ansible.builtin.yum:
         name: httpd
         state: present
       register: httpd_installed
