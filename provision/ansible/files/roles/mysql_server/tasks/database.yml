@@ -1,13 +1,13 @@
 ---
 - name: Configura senha do usuario root
-  mysql_user:
+  community.mysql.mysql_user:
     user: root
     password: "{{ mysql_root_password }}"
     login_unix_socket: /var/run/mysqld/mysqld.sock
   tags: banco
 
 - name: Cria banco de dados dexter500
-  mysql_db:
+  community.mysql.mysql_db:
     name: dexter500
     state: present
   tags: banco
@@ -19,7 +19,7 @@
 
 - name: Importar tabelas para o banco de dados
   when: not table_mysql.stat.exists
-  mysql_db:
+  community.mysql.mysql_db:
     name: dexter500
     login_user: root
     login_password: "{{ mysql_root_password }}"
@@ -28,7 +28,7 @@
   tags: banco
 
 - name: Adiciona usuario admin e configura privilegios
-  mysql_user:
+  community.mysql.mysql_user:
     name: "{{ mysql_user }}"
     password: "{{ mysql_password }}"
     host: "{{ item }}"
