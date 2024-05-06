@@ -61,6 +61,11 @@
       synchronize:
         src: files/site
         dest: /home/suporte
+
+    - name: Criando diretório awx
+      synchronize:
+        src: files/awx
+        dest: /home/suporte
         
     - name: Configura o servidor SSH para permitir conexao por senha
       ansible.builtin.replace:
