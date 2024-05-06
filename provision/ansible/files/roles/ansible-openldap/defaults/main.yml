@@ -1,0 +1,81 @@
+---
+# defaults file for ansible-openldap
+openldap_admin_password: P@55w0rd
+openldap_admin_user: admin
+openldap_base: "{{ 'dc=' + openldap_org + ',dc=' + openldap_tld }}"
+openldap_bind_id: "{{ 'cn=' + openldap_bind_user + ',' + openldap_base }}"
+openldap_bind_user: "{{ openldap_admin_user }}"
+
+# Defines whether or not OpenLDAP is configured
+openldap_config: false
+
+openldap_debian_packages:
+  - slapd
+  - ldap-utils
+  - php-xml
+  - phpldapadmin
+
+openldap_domain_name: "{{ openldap_org + '.' + openldap_tld }}"
+
+openldap_org: example
+
+# Defines OU's to populate
+openldap_organizationalunits:
+  - People
+  - Groups
+
+openldap_phpldapadmin_hide_warnings: true
+
+# Defines if openldap DB should be populated with openldap_organizationalunits,
+# openldap_posixgroups and openldap_users
+openldap_populate: false
+
+# Defines groups to create within OU's
+openldap_posixgroups:
+  - name: miners
+    ou: Groups
+    gidNum: 5000 #start group numbers at 5000 and up
+
+# Defines host for phpLDAPadmin
+openldap_server_host: 127.0.0.1
+
+openldap_users:
+  - FirstName: John
+    LastName: Smith
+    # Defines OU name
+    ou: People
+    # Start user numbers at 10000 and up
+    uidNum: 10000
+    # Defines gidNum from openldap_posixgroups
+    gidNum: 5000
+    password: P@55w0rd
+    loginShell: /bin/bash
+    homeDirectory: /home/john
+
+openldap_tld: org
+
+# Define a set of schema specifications files. 
+# For a non basic schema, Its .schema file must be placed in files/openldap/schema/. This file will be copied and converted to ldif before being inserted to LDAP tree
+openldap_schemas:
+  - core
+  - cosine
+  - inetorgperson
+  - nis
+
+# Define DB Engine (mdb / hdb)
+openldap_db_engine: MDB
+
+# Temp files path
+openldap_ldif_tmp_dir: /tmp/ldifs
+
+# Define a the set of ldif files to configure some Overlays or ACLs
+# All ldif files must be placed in files/openldap/overlays/
+# Use example
+#openldap_overlays_and_acls:
+#  - name: overlay1
+#    ldifs: 
+#      - path: file1.ldif
+#        action: modify //ldapmodify
+#      - path: file2.ldif
+#        action: add //ldapadd
+openldap_overlays_and_acls: []
