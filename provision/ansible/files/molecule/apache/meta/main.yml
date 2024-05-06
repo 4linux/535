@@ -1,6 +1,7 @@
 ---
 galaxy_info:
   role_name: apache
+  namespace: default
   author: sua_conta_github
   description: Instalação e Configuração do servidor Apache com Molecule
   company: 4Linux
