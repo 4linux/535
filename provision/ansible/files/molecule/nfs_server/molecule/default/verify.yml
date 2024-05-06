@@ -3,10 +3,10 @@
   hosts: all
   gather_facts: false
   tasks:
-- name: Example assertion
-  ansible.builtin.assert:
-    that: true
-- name: Testando o compartilhamento NFS
-  ansible.builtin.shell: "showmount -e --no-headers"
-  register: showmount_result
-  failed_when: showmount_result.stdout != "/opt/site 172.17.0.0/16,172.16.0.0/16"
+    - name: Example assertion
+      ansible.builtin.assert:
+        that: true
+    - name: Testando o compartilhamento NFS
+      ansible.builtin.shell: "showmount -e --no-headers"
+      register: showmount_result
+      failed_when: showmount_result.stdout != "/opt/site 172.17.0.0/16,172.16.0.0/16"
