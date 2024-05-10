@@ -23,11 +23,13 @@ Nesse laboratório, que está centralizado no arquivo [Vagrantfile][7], sera cri
 
 Nome       | vCPUs | Memoria RAM | IP            | S.O.¹           
 ---------- |:-----:|:-----------:|:-------------:|:---------------:
-ansible-server     | 1     | 2560MB | 172.16.0.199 | ubuntu-20.04
-balancer     | 1     | 512MB | 172.16.0.200 | centos-8.5
-web-server1     | 1     | 512MB | 172.16.0.201 | ubuntu-20.04
-web-server2     | 1     | 512MB | 172.16.0.202 | centos-8.5
-dbserver     | 1     | 512MB | 172.16.0.203 | debian-10.11
+ansible     | 2     | 3584MB | 172.16.0.199 | ubuntu-20.04
+balancer     | 1     | 700MB | 172.16.0.200 | centos-8.5
+web-server1     | 1     | 700MB | 172.16.0.201 | ubuntu-20.04
+web-server2     | 1     | 700MB | 172.16.0.202 | centos-8.5
+dbserver     | 1     | 600MB | 172.16.0.203 | debian-10.11
+winclient     | 2     | 2048MB | 172.16.0.204 | windows-10
+
 
 > **¹**: Esses Sistemas operacionais estão sendo utilizado no formato de Boxes, é a forma como o vagrant chama as imagens do sistema operacional utilizado.
 
@@ -36,10 +38,21 @@ Criação do Laboratório
 
 Para criar o laboratório é necessário fazer o `git clone` desse repositório e, dentro da pasta baixada realizar a execução do `vagrant up`, conforme abaixo:
 
+SOMENTE VMS LINUX
 ```bash
 git clone https://github.com/4linux/535
 cd 535/
-vagrant up
+vagrant up ansible balancer webserver1 webserver2 dbserver
+```
+
+SOMENTE VM WINDOWS
+```bash
+vagrant plugin install winrm
+vagrant plugin install winrm-elevate
+
+git clone https://github.com/4linux/535
+cd 535/
+vagrant up winclient
 ```
 
 _O Laboratório **pode demorar**, dependendo da conexão de internet e poder computacional, para ficar totalmente preparado._
