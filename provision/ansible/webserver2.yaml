@@ -21,3 +21,27 @@
         path: /etc/hosts
         line: "127.0.0.1	webserver2	webserver2"
         state: absent
+
+    - name: Substitui 'mirrorlist' por '#mirrorlist' nos arquivos de configuração do repo
+      ansible.builtin.replace:
+        path: "{{ item }}"
+        regexp: '^mirrorlist='
+        replace: '#mirrorlist='
+      with_fileglob:
+        - /etc/yum.repos.d/CentOS-*
+
+    - name: Muda a URL base de 'mirror.centos.org' para 'vault.centos.org'
+      ansible.builtin.replace:
+        path: "{{ item }}"
+        regexp: '#baseurl=http://mirror.centos.org'
+        replace: 'baseurl=http://vault.centos.org'
+      with_fileglob:
+        - /etc/yum.repos.d/CentOS-*
+
+    - name: Limpa todos os caches do DNF
+      ansible.builtin.command:
+        cmd: dnf clean all
+
+    - name: Recria o cache do DNF
+      ansible.builtin.command:
+        cmd: dnf makecache
