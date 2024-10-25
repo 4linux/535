@@ -1,0 +1,4 @@
+---
+collections:
+  - name: community.mysql
+    version: '>=2.3.8'
