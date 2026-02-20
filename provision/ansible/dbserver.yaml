@@ -1,14 +1,63 @@
 ---
 - hosts: all
   become: yes
-  become_user: root
-  become_method: sudo
   tasks:
+    - name: Ajusta sources.list para Debian 10 (buster) via archive.debian.org
+      ansible.builtin.copy:
+        dest: /etc/apt/sources.list
+        owner: root
+        group: root
+        mode: "0644"
+        backup: yes
+        content: |
+          deb http://archive.debian.org/debian buster main contrib non-free
+          deb-src http://archive.debian.org/debian buster main contrib non-free
+
+          deb http://archive.debian.org/debian buster-updates main contrib non-free
+          deb-src http://archive.debian.org/debian buster-updates main contrib non-free
+
+          deb http://archive.debian.org/debian-security buster/updates main contrib non-free
+          deb-src http://archive.debian.org/debian-security buster/updates main contrib non-free
+
+      when:
+        - ansible_distribution == "Debian"
+        - ansible_distribution_release == "buster"
+
+    - name: Desabilita validação "Valid-Until" (necessário para repos arquivados)
+      ansible.builtin.copy:
+        dest: /etc/apt/apt.conf.d/99buster-archive
+        owner: root
+        group: root
+        mode: "0644"
+        content: |
+          Acquire::Check-Valid-Until "false";
+      when:
+        - ansible_distribution == "Debian"
+        - ansible_distribution_release == "buster"
+
+    - name: Limpa listas antigas do APT (opcional)
+      ansible.builtin.command: rm -rf /var/lib/apt/lists/*
+      args:
+        warn: false
+      changed_when: false
+      when:
+        - ansible_distribution == "Debian"
+        - ansible_distribution_release == "buster"
+
+    - name: apt update (atualiza cache)
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 0
+      when:
+        - ansible_distribution == "Debian"
+        - ansible_distribution_release == "buster"
+
     - name: Garantindo /etc/hosts
-      lineinfile:
+      ansible.builtin.lineinfile:
         path: /etc/hosts
         line: "{{ item }}"
-      with_items:
+        create: yes
+      loop:
         - 172.16.0.199 ansible
         - 172.16.0.200 balancer
         - 172.16.0.201 webserver1
@@ -16,20 +65,21 @@
         - 172.16.0.203 dbserver
         - 172.16.0.204 winclient
 
-    - name: Ajustando /etc/hosts
-      lineinfile:
+    - name: Ajustando /etc/hosts (remove linha 127.0.1.1 do dbserver)
+      ansible.builtin.lineinfile:
         path: /etc/hosts
-        line: "127.0.1.1	dbserver	dbserver"
+        line: "127.0.1.1        dbserver        dbserver"
         state: absent
- 
+
     - name: Configura o servidor SSH para permitir conexao por senha
       ansible.builtin.replace:
         path: /etc/ssh/sshd_config
-        regexp: '#PermitRootLogin prohibit-password'
+        regexp: '^#?PermitRootLogin\s+prohibit-password'
         replace: 'PermitRootLogin yes'
+      notify: Reinicia o SSH
 
+  handlers:
     - name: Reinicia o SSH
-      service:
+      ansible.builtin.service:
         name: sshd
-        daemon_reload: yes
         state: restarted
