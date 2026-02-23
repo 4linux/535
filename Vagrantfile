@@ -31,6 +31,7 @@ Vagrant.configure('2') do |config|
   end
     config.vm.define "winclient" do |win10|
       win10.vm.box = "gusztavvargadr/windows-11"
+      win10.vm.box_version = "2509.0.0"
       win10.vm.network 'private_network', ip: "172.16.0.204"
       win10.vm.guest = :windows
       win10.vm.provider 'virtualbox' do |vb|
