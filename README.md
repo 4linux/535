@@ -1,7 +1,7 @@
 Laboratório 535 - Gerenciar Ambientes Automatizados com Ansible
 =============================
 
-Repositório para armazenar o Laboratório do curso de ansible da [4Linux][1]
+Repositório para armazenar o Laboratório do curso de Ansible da [4Linux][1].
 
 Dependências
 ------------
@@ -21,19 +21,19 @@ O Laboratório será criado utilizando o [Vagrant][6]. Ferramenta para criar e g
 
 Nesse laboratório, que está centralizado no arquivo [Vagrantfile][7], sera criada 1 maquina com a seguinte característica:
 
-Nome       | vCPUs | Memoria RAM | IP            | S.O.¹           
+Nome       | vCPUs | Memoria RAM | IP            | S.O.¹
 ---------- |:-----:|:-----------:|:-------------:|:---------------:
 ansible     | 2     | 3584MB | 172.16.0.199 | ubuntu-20.04
-balancer     | 1     | 700MB | 172.16.0.200 | centos-8.5
+balancer     | 1     | 700MB | 172.16.0.200 | rocky-linux-9.6
 web-server1     | 1     | 700MB | 172.16.0.201 | ubuntu-20.04
-web-server2     | 1     | 700MB | 172.16.0.202 | centos-8.5
+web-server2     | 1     | 700MB | 172.16.0.202 | rocky-linux-9.6
 dbserver     | 1     | 600MB | 172.16.0.203 | debian-10.11
 winclient     | 2     | 2048MB | 172.16.0.204 | windows-10
 
 
-> **¹**: Esses Sistemas operacionais estão sendo utilizado no formato de Boxes, é a forma como o vagrant chama as imagens do sistema operacional utilizado.
+> **¹**: Esses Sistemas operacionais estão sendo utilizado no formato de Boxes, é a forma como o Vagrant chama as imagens do sistema operacional utilizado.
 
-Criação do Laboratório 
+Criação do Laboratório
 ----------------------
 
 Para criar o laboratório é necessário fazer o `git clone` desse repositório e, dentro da pasta baixada realizar a execução do `vagrant up`, conforme abaixo:
@@ -59,7 +59,7 @@ _O Laboratório **pode demorar**, dependendo da conexão de internet e poder com
 
 > Em caso de erro na criação das máquinas sempre valide se sua conexão está boa, os logs de erros na tela e, se necessário, o arquivo **/var/log/vagrant_provision.log** dentro da máquina que apresentou a falha.
 
-Por fim, para melhor utilização, abaixo há alguns comandos básicos do vagrant para gerencia das máquinas virtuais.
+Por fim, para melhor utilização, abaixo há alguns comandos básicos do Vagrant para gerencia das máquinas virtuais.
 
 Comandos                | Descrição
 :----------------------:| ---------------------------------------
@@ -84,3 +84,14 @@ Comandos                | Descrição
 [6]: https://www.vagrantup.com/
 [7]: ./Vagrantfile
 [8]: https://www.vagrantup.com/docs
+
+### Tabela Comparativa de Boxes Windows no Vagrant
+
+O *box* original utilizado para a VM Windows apresenta uma série de problemas e a sugestão é trocar essa *box* por outra.
+
+| Recurso | `devopsbox` | `gusztavvargadr` | `mwrock` |
+| :--- | :--- | :--- | :--- |
+| **Confiabilidade** | **Baixa/Variável.** Frequentemente carece de pré-configuração do WinRM. | **Alta.** Construída especificamente para automação de CI/CD e DevOps. | **Muito Alta.** Mantida pelo criador da biblioteca WinRM usada pelo Vagrant. |
+| **Configuração WinRM** | Básica ou incompleta. | Robusta; inclui "autologon" e listeners pré-configurados. | Configurada com perfeição para o transporte `plaintext` do Vagrant. |
+| **Atualizações** | Infrequentes. | Mensais (altamente automatizadas). | Frequentes. |
+| **Tamanho** | Variável; muitas vezes inchada com aplicativos desnecessários. | Otimizada; oferece versões "Core" (sem interface) e "Desktop". | Altamente otimizada para velocidade de carregamento. |
