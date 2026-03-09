@@ -70,9 +70,19 @@ Vagrant.configure('2') do |config|
         vb.customize ['modifyvm', :id, '--vram', '16']
         vb.customize ['modifyvm', :id, '--graphicscontroller', 'vmsvga']
       end
-      k.vm.provision 'ansible_local' do |ansible|
-        ansible.playbook = "#{conf['provision']}"
-        ansible.compatibility_mode = '2.0'
+      k.vm.provision 'shell', inline: install_ansible_rpm if conf['box'] == ROCKY_LINUX
+      k.vm.provision 'shell', inline: install_ansible_apt if conf['box'] == UBUNTU
+
+      if name != 'ansible'
+        k.vm.provision 'ansible_local' do |ansible|
+          ansible.playbook = conf['provision']
+        end
+      else
+        k.vm.provision 'ansible_local' do |ansible|
+          ansible.playbook = conf['provision']
+          ansible.install_mode = :pip
+          ansible.provisioning_path = '/home/vagrant/.venv/bin'
+        end
       end
     end
   end
