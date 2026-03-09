@@ -1,14 +1,23 @@
+# frozen_string_literal: true
+
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-VAGRANT_DISABLE_VBOXSYMLINKCREATE=1
+VAGRANT_DISABLE_VBOXSYMLINKCREATE = 1
+ROCKY_LINUX = 'bento/rockylinux-9.6'
+UBUNTU = 'devopsbox/ubuntu-20.04'
 
 vms = {
-  'ansible' => {'memory' => '3584', 'cpus' => 2, 'ip' => '199', 'box' => 'devopsbox/ubuntu-20.04', 'provision' => 'provision/ansible/ansible.yaml'},
-  'balancer' => {'memory' => '700', 'cpus' => 1, 'ip' => '200', 'box' => 'devopsbox/centos-8.5', 'provision' => 'provision/ansible/balancer.yaml'},
-  'webserver1' => {'memory' => '700', 'cpus' => 1, 'ip' => '201', 'box' => 'devopsbox/ubuntu-20.04', 'provision' => 'provision/ansible/webserver1.yaml'},
-  'webserver2' => {'memory' => '700', 'cpus' => 1, 'ip' => '202', 'box' => 'devopsbox/centos-8.5', 'provision' => 'provision/ansible/webserver2.yaml'},
-  'dbserver' => {'memory' => '600', 'cpus' => 1, 'ip' => '203', 'box' => 'devopsbox/debian-10.11', 'provision' => 'provision/ansible/dbserver.yaml'}
+  'ansible' => { 'memory' => '3584', 'cpus' => 2, 'ip' => '199', 'box' => UBUNTU,
+                 'provision' => 'provision/ansible/ansible.yaml' },
+  'balancer' => { 'memory' => '700', 'cpus' => 1, 'ip' => '200', 'box' => ROCKY_LINUX,
+                  'provision' => 'provision/ansible/balancer.yaml' },
+  'webserver1' => { 'memory' => '700', 'cpus' => 1, 'ip' => '201', 'box' => UBUNTU,
+                    'provision' => 'provision/ansible/webserver1.yaml' },
+  'webserver2' => { 'memory' => '700', 'cpus' => 1, 'ip' => '202', 'box' => ROCKY_LINUX,
+                    'provision' => 'provision/ansible/webserver2.yaml' },
+  'dbserver' => { 'memory' => '600', 'cpus' => 1, 'ip' => '203', 'box' => 'bento/debian-13',
+                  'provision' => 'provision/ansible/dbserver.yaml' }
 }
 
 Vagrant.configure('2') do |config|
@@ -29,16 +38,16 @@ Vagrant.configure('2') do |config|
       end
     end
   end
-    config.vm.define "winclient" do |win10|
-      win10.vm.box = "devopsbox/windows-10"
-      win10.vm.network 'private_network', ip: "172.16.0.204"
-      win10.vm.box_version = "1.0"
-      win10.vm.guest = :windows
-      win10.vm.provider 'virtualbox' do |vb|
-        vb.memory = "2048"
+  config.vm.define 'winclient' do |win10|
+    win10.vm.box = 'devopsbox/windows-10'
+    win10.vm.network 'private_network', ip: '172.16.0.204'
+    win10.vm.box_version = '1.0'
+    win10.vm.guest = :windows
+    win10.vm.provider 'virtualbox' do |vb|
+      vb.memory = '3072'
     end
-      win10.vm.communicator = :winrm
-        win10.winrm.username = "vagrant"
-        win10.winrm.password = "vagrant"
+    win10.vm.communicator = :winrm
+    win10.winrm.username = 'vagrant'
+    win10.winrm.password = 'vagrant'
   end
 end
