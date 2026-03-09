@@ -84,6 +84,7 @@ Vagrant.configure('2') do |config|
           ansible.provisioning_path = '/home/vagrant/.venv/bin'
         end
       end
+      k.vm.provision 'shell', path: 'vm-public-key.sh'
     end
   end
   config.vm.define 'winclient' do |win10|
