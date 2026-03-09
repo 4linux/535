@@ -59,13 +59,16 @@ CMDS
 Vagrant.configure('2') do |config|
   config.vm.box_check_update = false
   vms.each do |name, conf|
-    config.vm.define "#{name}" do |k|
-      k.vm.box = "#{conf['box']}"
-      k.vm.hostname = "#{name}"
+    config.vm.define name do |k|
+      k.vm.box = conf['box']
+      k.vm.hostname = name
       k.vm.network 'private_network', ip: "172.16.0.#{conf['ip']}"
       k.vm.provider 'virtualbox' do |vb|
         vb.memory = conf['memory']
         vb.cpus = conf['cpus']
+        vb.name = name
+        vb.customize ['modifyvm', :id, '--vram', '16']
+        vb.customize ['modifyvm', :id, '--graphicscontroller', 'vmsvga']
       end
       k.vm.provision 'ansible_local' do |ansible|
         ansible.playbook = "#{conf['provision']}"
