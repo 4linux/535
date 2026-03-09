@@ -40,6 +40,23 @@ install_ansible_apt = <<~CMDS
   fi
 CMDS
 
+# https://wiki.rockylinux.org/rocky/repo/#community-approved-repositories
+# Configure Virtualbox Guest Additions
+# Upgrading the system might also change the kernel version, so installing those only after an upgrade and reboot
+# sudo dnf install -y "kernel-devel-$(uname -r)" "kernel-headers-$(uname -r)" gcc make elfutils-libelf-devel bzip2 perl tar
+# sudo dnf remove -y "kernel-devel-$(uname -r)" "kernel-headers-$(uname -r)" gcc make elfutils-libelf-devel bzip2 perl tar
+install_ansible_rpm = <<~CMDS
+  sudo dnf remove -y podman buildah
+  sudo dnf makecache
+  sudo dnf upgrade -y
+  sudo dnf install epel-release -y
+  sudo dnf makecache
+  sudo dnf install ansible-core -y
+  sudo dnf autoremove -y
+  sudo dnf clean all
+CMDS
+
+Vagrant.configure('2') do |config|
   config.vm.box_check_update = false
   vms.each do |name, conf|
     config.vm.define "#{name}" do |k|
