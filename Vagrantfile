@@ -20,7 +20,25 @@ vms = {
                   'provision' => 'provision/ansible/dbserver.yaml' }
 }
 
-Vagrant.configure('2') do |config|
+install_ansible_apt = <<~CMDS
+  export DEBIAN_FRONTEND=noninteractive
+  sudo apt-get update
+  sudo apt-get upgrade -y
+  sudo apt-get install python3.10-venv -y
+  sudo apt-get autoremove -y
+  sudo apt-get clean
+
+  if [[ ! -d /home/vagrant/.venv ]]
+  then
+    python3 -m venv /home/vagrant/.venv
+    source /home/vagrant/.venv/bin/activate && python -m pip install ansible
+  fi
+
+  if [[ ! -f /etc/ansible/ansible.cfg ]]
+  then
+      sudo ansible-config init --disabled > /etc/ansible/ansible.cfg
+  fi
+CMDS
 
   config.vm.box_check_update = false
   vms.each do |name, conf|
