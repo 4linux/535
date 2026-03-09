@@ -1,25 +1,21 @@
 ---
-- hosts: all
+- hosts: webserver2
   become: yes
   become_user: root
   become_method: sudo
+  vars_files:
+    - vars/hosts.yaml
   tasks:
     - name: Garantindo /etc/hosts
       lineinfile:
         path: /etc/hosts
         line: "{{ item }}"
-      with_items:
-        - 172.16.0.199 ansible
-        - 172.16.0.200 balancer
-        - 172.16.0.201 webserver1
-        - 172.16.0.202 webserver2
-        - 172.16.0.203 dbserver
-        - 172.16.0.204 winclient
+      with_items: '{{ linux_hosts_file }}'
 
     - name: Ajustando /etc/hosts
       lineinfile:
         path: /etc/hosts
-        line: "127.0.0.1	webserver2	webserver2"
+        line: 127.0.1.1 webserver2
         state: absent
 
     - name: Substitui 'mirrorlist' por '#mirrorlist' nos arquivos de configuração do repo

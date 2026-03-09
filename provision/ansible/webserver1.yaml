@@ -1,35 +1,19 @@
 ---
-- hosts: all
+- hosts: webserver1
   become: yes
   become_user: root
   become_method: sudo
+  vars_files:
+    - vars/hosts.yaml
   tasks:
     - name: Garantindo /etc/hosts
       lineinfile:
         path: /etc/hosts
         line: "{{ item }}"
-      with_items:
-        - 172.16.0.199 ansible
-        - 172.16.0.200 balancer
-        - 172.16.0.201 webserver1
-        - 172.16.0.202 webserver2
-        - 172.16.0.203 dbserver
-        - 172.16.0.204 winclient
+      with_items: '{{ linux_hosts_file }}'
 
     - name: Ajustando /etc/hosts
       lineinfile:
         path: /etc/hosts
-        line: "127.0.1.1	webserver1	webserver1"
+        line: 127.0.1.1 webserver1
         state: absent
-
-    - name: Configura o servidor SSH para permitir conexao por senha
-      ansible.builtin.replace:
-        path: /etc/ssh/sshd_config
-        regexp: '#PermitRootLogin prohibit-password'
-        replace: 'PermitRootLogin yes'
- 
-    - name: Reinicia o SSH
-      service:
-        name: sshd
-        daemon_reload: yes
-        state: restarted

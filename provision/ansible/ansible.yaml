@@ -1,77 +1,68 @@
 ---
-- hosts: all
+- hosts:
+    - ansible
   become: yes
   become_user: root
   become_method: sudo
+  vars_files:
+    - vars/hosts.yaml
   tasks:
     - name: Garantindo /etc/hosts
       lineinfile:
         path: /etc/hosts
         line: "{{ item }}"
-      with_items:
-        - 172.16.0.199 ansible
-        - 172.16.0.200 balancer
-        - 172.16.0.201 webserver1
-        - 172.16.0.202 webserver2
-        - 172.16.0.203 dbserver
-        - 172.16.0.204 winclient
+      with_items: '{{ linux_hosts_file }}'
 
     - name: Ajustando /etc/hosts
       lineinfile:
         path: /etc/hosts
-        line: "127.0.1.1	ansible	ansible"
+        line: 127.0.1.1 ansible
         state: absent
 
-    - name: Criando diretório docker-nfs-server-centos
-      synchronize:
-        src: files/docker-nfs-server-centos
+    - name: 'Criando diretório docker-nfs-server-rocky'
+      ansible.posix.synchronize:
+        src: files/docker-nfs-server-rocky
         dest: /home/suporte
-       
+
     - name: Criando diretório docker-nfs-server-ubuntu
-      synchronize:
+      ansible.posix.synchronize:
         src: files/docker-nfs-server-ubuntu
         dest: /home/suporte
-        
+
     - name: Criando diretório lookup
-      synchronize:
+      ansible.posix.synchronize:
         src: files/lookup
         dest: /home/suporte
 
     - name: Criando diretório modulos
-      synchronize:
+      ansible.posix.synchronize:
         src: files/modulos
         dest: /home/suporte
 
     - name: Criando diretório molecule
-      synchronize:
+      ansible.posix.synchronize:
         src: files/molecule
         dest: /home/suporte
 
     - name: Criando diretório playbooks
-      synchronize:
+      ansible.posix.synchronize:
         src: files/playbooks
         dest: /home/suporte
 
     - name: Criando diretório roles
-      synchronize:
+      ansible.posix.synchronize:
         src: files/roles
         dest: /home/suporte
 
     - name: Criando diretório site
-      synchronize:
+      ansible.posix.synchronize:
         src: files/site
         dest: /home/suporte
 
     - name: Criando diretório awx
-      synchronize:
+      ansible.posix.synchronize:
         src: files/awx
         dest: /home/suporte
-        
-    - name: Configura o servidor SSH para permitir conexao por senha
-      ansible.builtin.replace:
-        path: /etc/ssh/sshd_config
-        regexp: '#PermitRootLogin prohibit-password'
-        replace: 'PermitRootLogin yes'
 
     - name: Reinicia o SSH
       service:
