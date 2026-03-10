@@ -1,2 +1,4 @@
 known-vms.txt
 .vagrant
+.DS_Store
+
