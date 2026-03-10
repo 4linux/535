@@ -19,10 +19,11 @@ um ambiente produtivo, apesar de aceitável em um laboratório de estudos de Ans
 
 Você pode verificar as alterações que fiz usando o `git log` (ou equivalente) para ler o motivo dessas modificações.
 
-## Ajustes de DRY pendentes
+## Ajustes pendentes
 
 - reutilizar configuração para desabilitar IPv6 em todas as VMs
 - reutilizar configuração para garantir o usuário `suporte` em todas as VMs
+- recriar toda a configuração do Molecule para trabalhar com imagens Docker
 
 ## Dependências
 
@@ -162,3 +163,14 @@ Isso configurará as CLI's do OpenSSH para trabalhar da mesma forma como os serv
 - [Virtualbox][3]
 - [Cygwin][5]
 - [Vagrant][6]
+
+### Como configurar o Docker para executar o systemd
+
+São necessários uma série de ajustes (**perigosos** em termos de segurança) na configuração de um container para que o
+systemd funcione conforme o esperado.
+
+Esse tipo de configuração se torna necessária se você quiser simular um *daemon* gerenciado pelo systemd em um
+container e usar o mesmo para testes automatizados com o Molecule.
+
+- https://developers.redhat.com/blog/2014/05/05/running-systemd-within-docker-container
+- https://developers.redhat.com/blog/2019/04/24/how-to-run-systemd-in-a-container
