@@ -11,7 +11,7 @@
     - Restart MySQL-Debian
   tags: banco
 
-- name: Define configuracao do servidor MySQL no RedHat/CentOS
+- name: Define configuracao do servidor MySQL no RedHat/Rocky Linux
   when: ansible_os_family == "RedHat"
   ansible.builtin.template:
     src: mysql-redhat.cnf.j2

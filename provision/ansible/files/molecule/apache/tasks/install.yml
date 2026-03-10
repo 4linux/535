@@ -13,7 +13,7 @@
     - Start Apache
   tags: web-debian
 
-- name: Instala Webserver Apache no RedHat/CentOS
+- name: Instala Webserver Apache no RedHat/Rocky Linux
   when: ansible_os_family == "RedHat"
   ansible.builtin.yum:
     name: "{{ packages_redhat }}"

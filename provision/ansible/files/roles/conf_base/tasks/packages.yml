@@ -7,7 +7,7 @@
     update_cache: true
   tags: packages
 
-- name: Instala pacotes base no RedHat/CentOS
+- name: Instala pacotes base no RedHat/Rocky Linux
   when: ansible_os_family == "RedHat"
   ansible.builtin.yum:
     name: "{{ packages_redhat }}"

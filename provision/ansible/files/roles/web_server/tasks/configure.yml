@@ -25,7 +25,7 @@
     - Restart Apache
   tags: web-debian
 
-- name: Define a configuracao do arquivo banco.php RedHat/CentOS
+- name: Define a configuracao do arquivo banco.php RedHat/Rocky Linux
   when: ansible_os_family == "RedHat" and not banco_php_file.stat.exists
   ansible.builtin.template:
     src: banco.php.j2

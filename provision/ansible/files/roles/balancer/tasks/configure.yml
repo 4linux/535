@@ -11,7 +11,7 @@
     - Restart Nginx Ubuntu
   tags: balancer
 
-- name: Define o arquivo de configuracao do servidor Nginx no RedHat/CentOS
+- name: Define o arquivo de configuracao do servidor Nginx no RedHat/Rocky Linux
   when: ansible_os_family == "RedHat"
   ansible.builtin.template:
     src: nginx-redhat.conf.j2
@@ -20,5 +20,5 @@
     group: root
     mode: "0644"
   notify:
-    - Restart Nginx CentOS
+    - Restart Nginx Rocky Linux
   tags: balancer

@@ -5,7 +5,7 @@
     state: started
     enabled: true
 
-- name: Start Nginx CentOS
+- name: Start Nginx Rocky Linux
   ansible.builtin.service:
     name: nginx
     state: started
@@ -16,7 +16,7 @@
     name: nginx
     state: restarted
 
-- name: Restart Nginx CentOS
+- name: Restart Nginx Rocky Linux
   ansible.builtin.service:
     name: nginx
     state: restarted

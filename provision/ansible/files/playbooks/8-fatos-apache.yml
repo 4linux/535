@@ -8,9 +8,9 @@
         state: present
         update_cache: true
       register: apache2_installed
-    - name: Instala o Apache no CentOS
+    - name: Instala o Apache no Rocky Linux
       when: ansible_os_family == "RedHat"
-      ansible.builtin.yum:
+      ansible.builtin.dnf:
         name: httpd
         state: present
       register: httpd_installed

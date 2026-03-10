@@ -13,7 +13,7 @@
     - Start MySQL-Debian
   tags: banco
 
-- name: Instala pacotes para servidor MySQL no RedHat/CentOS
+- name: Instala pacotes para servidor MySQL no RedHat/Rocky Linux
   when: ansible_os_family == "RedHat"
   ansible.builtin.dnf:
     name: "{{ packages_redhat }}"

@@ -10,9 +10,9 @@ galaxy_info:
     - name: Ubuntu
       versions:
         - "focal"
-    - name: EL
+    - name: Rocky Linux
       versions:
-        - "8"
+        - "9.7"
   galaxy_tags:
     - nfs
 dependencies: []

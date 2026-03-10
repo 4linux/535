@@ -10,16 +10,16 @@
   when:
     - ansible_os_family == "Debian"
     - php_packages_ubuntu_installed is succeeded
-  ansible.builtin.copy: 
+  ansible.builtin.copy:
     src: /home/suporte/modulos/files/web/index.php
     dest: /var/www/html/index.php
     owner: www-data
     group: www-data
     mode: "0644"
-- name: Define o arquivo de configuração para testar o suporte PHP em Distribuições RedHat/CentOS
+- name: Define o arquivo de configuração para testar o suporte PHP em Distribuições RedHat/Rocky Linux
   when:
     - ansible_os_family == "RedHat"
-    - php_packages_centos_installed is succeeded
+    - php_packages_rocky_installed is succeeded
   ansible.builtin.copy:
     src: /home/suporte/modulos/files/web/index.php
     dest: /var/www/html/index.php

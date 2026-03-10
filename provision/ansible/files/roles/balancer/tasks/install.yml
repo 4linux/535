@@ -9,13 +9,13 @@
     - Start Nginx Ubuntu
   tags: balancer
 
-- name: Instala servidor Nginx no RedHat/CentOS
+- name: Instala servidor Nginx no RedHat/Rocky Linux
   when: ansible_os_family == "RedHat"
   ansible.builtin.yum:
     name: nginx
     state: present
   notify:
-    - Start Nginx CentOS
+    - Start Nginx Rocky Linux
   tags: balancer
 
 - name: Inicia e ativa na inicializacao o servico nginx

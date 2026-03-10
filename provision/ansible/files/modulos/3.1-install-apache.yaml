@@ -12,7 +12,7 @@
   register: php_packages_ubuntu_installed
   notify:
     - Restart Apache
-- name: Instala pacotes para suporte a PHP no Apache em Distribuições RedHat/CentOS
+- name: Instala pacotes para suporte a PHP no Apache em Distribuições RedHat/Rocky Linux
   when: ansible_os_family == "RedHat"
   ansible.builtin.dnf:
     name: "{{ item }}"
@@ -22,6 +22,4 @@
     - httpd
     - php
     - php-mysqlnd
-  register: php_packages_centos_installed
-  notify:
-    - Restart Httpd
+  register: php_packages_rocky_installed
