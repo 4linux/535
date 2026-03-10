@@ -26,3 +26,13 @@
     owner: apache
     group: apache
     mode: "0644"
+- name: Configura o arquivo índice PHP
+  when:
+    - ansible_os_family == "RedHat"
+    - php_packages_rocky_installed
+  ansible.builtin.replace:
+    path: /etc/httpd/conf/httpd.conf
+    # DirectoryIndex index.html
+    regexp: '(DirectoryIndex)\s(index.)(html)'
+    replace: '\1 \2php'
+  notify: 'Restart Httpd'
