@@ -12,6 +12,7 @@
       ansible.builtin.service:
         name: apache2
         state: restarted
+        enabled: yes
 
     - name: Restart Httpd
       when: ansible_os_family == "RedHat"
