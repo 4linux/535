@@ -19,16 +19,6 @@
         line: 127.0.1.1 ansible
         state: absent
 
-    - name: 'Criando diretório docker-nfs-server-rocky'
-      ansible.posix.synchronize:
-        src: files/docker-nfs-server-rocky
-        dest: /home/suporte
-
-    - name: Criando diretório docker-nfs-server-ubuntu
-      ansible.posix.synchronize:
-        src: files/docker-nfs-server-ubuntu
-        dest: /home/suporte
-
     - name: Criando diretório lookup
       ansible.posix.synchronize:
         src: files/lookup
