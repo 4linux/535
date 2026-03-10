@@ -28,8 +28,19 @@
         regexp: '#PermitRootLogin prohibit-password'
         replace: 'PermitRootLogin yes'
 
-    - name: Reinicia o SSH
-      service:
-        name: sshd
-        daemon_reload: yes
-        state: restarted
+    - name: Desabilita o uso de IPv6 no host
+      ansible.builtin.lineinfile:
+        path: /etc/sysctl.d/60-disable-ipv6.conf
+        line: '{{ item }}'
+        state: present
+        create: true
+      with_items:
+        - net.ipv6.conf.all.disable_ipv6 = 1
+        - net.ipv6.conf.default.disable_ipv6 = 1
+        - net.ipv6.conf.lo.disable_ipv6 = 1
+      notify:
+        - 'Reload sysctl'
+  handlers:
+    - name: 'Reload sysctl'
+      ansible.builtin.command:
+        cmd: sysctl -p /etc/sysctl.d/60-disable-ipv6.conf
