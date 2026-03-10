@@ -1,5 +1,8 @@
 ---
 - hosts: webservers
+  become: true
+  vars_files:
+    - vars/nfs.yaml
   pre_tasks:
   - name: Instala cliente NFS em distribuições baseadas no Debian
     ansible.builtin.apt:

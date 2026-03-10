@@ -1,2 +1,3 @@
 ---
-# defaults file for nfs-server
+nfs_group: webgroup
+nfs_gid: 2000

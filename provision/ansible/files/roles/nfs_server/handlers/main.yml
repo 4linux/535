@@ -1,20 +1,31 @@
 ---
-- name: Start NFS Ubuntu
+- name: Inicia o NFS no Ubuntu
   ansible.builtin.service:
     name: nfs-kernel-server
     state: started
 
-- name: Start NFS CentOS
+- name: Habilita o NFS através do firewall do Rocky
+  ansible.posix.firewalld:
+    service: '{{ item }}'
+    state: enabled
+    permanent: true
+    immediate: true
+    offline: true
+  loop:
+    - nfs
+    - nfs3
+
+- name: Inicia o NFS no Rocky
   ansible.builtin.service:
     name: nfs-server
     state: started
 
-- name: Restart NFS Ubuntu
+- name: Reinicia o NFS no Ubuntu
   ansible.builtin.service:
     name: nfs-kernel-server
     state: restarted
 
-- name: Restart NFS CentOS
+- name: Reinicia o NFS no Rocky
   ansible.builtin.service:
     name: nfs-server
     state: restarted

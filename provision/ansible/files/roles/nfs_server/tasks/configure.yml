@@ -4,28 +4,34 @@
     name: rpcbind
     state: started
 
+- name: Garantir que o grupo webgroup existe com GID fixo
+  ansible.builtin.group:
+    name: '{{ nfs_group }}'
+    gid: '{{ nfs_gid }}'
+    state: present
+
 - name: Define o arquivo de configuracao do servidor NFS no Debian/Ubuntu
   when: ansible_os_family == "Debian"
   ansible.builtin.copy:
     src: exports
     dest: /etc/exports
     owner: root
-    group: root
+    group: '{{ nfs_group }}'
     mode: "0644"
   notify:
-    - Restart NFS Ubuntu
+    - Reinicia o NFS no Ubuntu
   tags: nfs
 
-- name: Define o arquivo de configuracao do servidor NFS no RedHat/CentOS
+- name: Define o arquivo de configuracao do servidor NFS no RedHat/Rocky Linux
   when: ansible_os_family == "RedHat"
   ansible.builtin.copy:
     src: exports
     dest: /etc/exports
     owner: root
-    group: root
+    group: '{{ nfs_group }}'
     mode: "0644"
   notify:
-    - Restart NFS CentOS
+    - Reinicia o NFS no Rocky
   tags: nfs
 
 - name: Verifica se diretorio /opt/site/admin existe
@@ -39,6 +45,6 @@
     src: site/
     dest: /opt/site
     owner: root
-    group: root
+    group: '{{ nfs_group }}'
     mode: "0755"
   tags: nfs

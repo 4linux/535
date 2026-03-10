@@ -1,2 +1,4 @@
 ---
 dbhost: 172.16.0.203
+nfs_group: webgroup
+nfs_gid: 2000

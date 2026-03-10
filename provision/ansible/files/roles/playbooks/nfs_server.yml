@@ -1,4 +1,7 @@
 ---
 - hosts: lb
+  become: true
+  vars_files:
+    - vars/nfs.yaml
   roles:
     - nfs_server

@@ -6,16 +6,17 @@
     state: present
     update_cache: true
   notify:
-    - Start NFS Ubuntu
+    - Inicia o NFS no Ubuntu
   tags: nfs
 
-- name: Instala servidor NFS no RedHat/CentOS
+- name: Instala servidor NFS no RedHat/Rocky Linux
   when: ansible_os_family == "RedHat"
   ansible.builtin.yum:
     name: nfs-utils
     state: present
   notify:
-    - Start NFS CentOS
+    - Habilita o NFS através do firewall do Rocky
+    - Inicia o NFS no Rocky
   tags: nfs
 
 - name: Inicia e ativa na inicializacao o servico NFS

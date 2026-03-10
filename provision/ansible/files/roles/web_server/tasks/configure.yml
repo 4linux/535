@@ -13,13 +13,19 @@
     path: /var/www/html/include/banco.php
   register: banco_php_file
 
+- name: Garantir que o grupo webgroup existe com GID fixo
+  ansible.builtin.group:
+    name: '{{ nfs_group }}'
+    gid: '{{ nfs_gid }}'
+    state: present
+
 - name: Define a configuracao do arquivo banco.php Debian/Ubuntu
   when: ansible_os_family == "Debian" and not banco_php_file.stat.exists
   ansible.builtin.template:
     src: banco.php.j2
     dest: /var/www/html/include/banco.php
     owner: www-data
-    group: www-data
+    group: '{{ nfs_group }}'
     mode: "0644"
   notify:
     - Restart Apache
@@ -31,7 +37,7 @@
     src: banco.php.j2
     dest: /var/www/html/include/banco.php
     owner: apache
-    group: apache
+    group: '{{ nfs_group }}'
     mode: "0644"
   notify:
     - Restart Httpd
