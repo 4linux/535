@@ -36,9 +36,9 @@ Para a criação do laboratório é necessário ter pré instalado os seguintes 
 
 ## Laboratório
 
-O Laboratório será criado utilizando o [Vagrant][6]. Ferramenta para criar e gerenciar ambientes virtualizados (baseado em Inúmeros providers) com foco em automação.
+O Laboratório será criado utilizando o [Vagrant][6].
 
-Nesse laboratório, que está centralizado no arquivo [`Vagrantfile`][7], sera criada uma máquina com as seguintes característica:
+Nesse laboratório, que está centralizado no arquivo [`Vagrantfile`][7], serão criadas máquina virtuais com as seguintes característica:
 
 Nome       | vCPUs | Memoria RAM | IP            | S.O.¹
 ---------- |:-----:|:-----------:|:-------------:|:---------------:
@@ -131,6 +131,20 @@ os pacotes necessários (específicos por distribuição Linux) e rodar o proced
 
 Garanta que todas as atualizações de kernel foram feitas **antes** de iniciar a instalação do módulo do Guest
 Additions, caso contrário você irá perder seu tempo repetindo a instalação do Guest Additions.
+
+### Configuração de SSH
+
+Parte das automações relacionadas garantem que os servidores se comuniquem entre si usando chaves assimétricas, tanto
+para autenticação quanto para aferir os servidores.
+
+Para que você use o cliente `ssh` para se conectar automaticamente nas VMs fazendo mesmo, utilize o arquivo
+ssh-setup.sh **antes** de iniciar a conexão, da seguinte forma:
+
+```
+. ssh-setup.sh
+```
+
+Isso configurará as CLI's do OpenSSH para trabalhar da mesma forma como os servidores funcionam.
 
 ## Referências
 
