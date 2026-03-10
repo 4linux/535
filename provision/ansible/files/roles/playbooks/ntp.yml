@@ -1,4 +1,6 @@
 ---
-- hosts: db
+- hosts: all
   roles:
-    - geerlingguy.ntp
+    - role: geerlingguy.ntp
+      ntp_enabled: true
+      ntp_timezone: America/Sao_Paulo
