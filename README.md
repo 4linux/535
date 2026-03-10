@@ -2,6 +2,28 @@
 
 Repositório para armazenar o Laboratório do curso de Ansible da [4Linux][1].
 
+Eu revisei o conteúdo deste repositório após cloná-los com os seguintes objetivos:
+
+1. Manter a configuração DRY: algumas decisões tomadas foram feitas com objetivos didáticos, mas existe repetições de configuração.
+1. Evitar o uso do sudo para operações, já que é complemente desnecessário
+1. Utilizar boas práticas de configurações de SSH, como incluir as chaves das VMs para sempre confirmar a identidade das VMs, assim como evitar o *login* com o usuário root
+1. Atualizar/substituir os *boxes* das distribuições Linux, visto que algumas delas sequer conseguiam mais instalar atualizações
+1. Utilizar uma versão mais recente do Ansible, independente da versão disponível como pacote para a distribuição Linux.
+
+No caso onde a distribuição CentOS era usada, foram feitas substituições pelo Rocky Linux, que por sua vez pode
+apresentar **problemas** com a versão do Virtualbox disponível (eu utilizei a versão 7.1.16 r172425 (Qt6.4.2)). Caso
+você identifique falhas na inicialização, tente usar uma versão mais recente do Virtualbox e/ou Rocky Linux.
+
+A configuração de alguns aspectos de segurança (como o caso do OpenSSH) visa reproduzir o que seria necessário fazer em
+um ambiente produtivo, apesar de aceitável em um laboratório de estudos de Ansible.
+
+Você pode verificar as alterações que fiz usando o `git log` (ou equivalente) para ler o motivo dessas modificações.
+
+## Ajustes de DRY pendentes
+
+- reutilizar configuração para desabilitar IPv6 em todas as VMs
+- reutilizar configuração para garantir o usuário `suporte` em todas as VMs
+
 ## Dependências
 
 Para a criação do laboratório é necessário ter pré instalado os seguintes *softwares*:
@@ -82,6 +104,33 @@ O *box* original utilizado para a VM Windows apresenta uma série de problemas e
 | **Configuração WinRM** | Básica ou incompleta. | Robusta; inclui "autologon" e listeners pré-configurados. | Configurada com perfeição para o transporte `plaintext` do Vagrant. |
 | **Atualizações** | Infrequentes. | Mensais (altamente automatizadas). | Frequentes. |
 | **Tamanho** | Variável; muitas vezes inchada com aplicativos desnecessários. | Otimizada; oferece versões "Core" (sem interface) e "Desktop". | Altamente otimizada para velocidade de carregamento. |
+
+### Virtualbox Guest Additions
+
+Instalar o Guest Additions nas VMs Linux é **requerido** para providenciar o compartilhamento de arquivos entre as VMs.
+Também melhora bastante a experiência em utilizar as VMs com o Virtualbox.
+
+Existe muita documentação disponível sobre o tema na internet, então vou limitar os comentários aqui para indicar como
+utilizar essa funcionalidade com as VMs do treinamento.
+
+Primeiro, instalar o Guest Additions vai exigir a instalação de ferramentas de compilação de código C e também os
+arquivos *headers* da versão do kernel presente, inserir o CDROM respectivo e rodar a instalação, o que irá compilar
+um módulo específico para a versão do kernel presente.
+
+Controlar isto via Vagrant é complexo, principalmente se você não quer manter essas ferramentas de desenvolvimento
+instaladas, se espaço em disco for um problema. O plugin vbguest tenta ajudar neste sentido, mas não consegue ir muito
+longe sem alguma intervenção manual.
+
+Disto isto, não consegui (pelo menos ainda) implementar idempotência com o Vagrant para esta tarefa e ainda manter a
+VM pequena. Reduzir o espaço em disco depois de instalar o Guest Additions não é uma tarefa trivial ou rápida. Você
+também vai querer "pregar" (*pin*) a versão do kernel na VM, ou vai ter que ficar compilando o módulo a cada nova
+versão.
+
+Disto isto, revise o `Vagrantfile` neste repositório para habilitar/desabilitar os comandos respectivos para instalar
+os pacotes necessários (específicos por distribuição Linux) e rodar o procedimento manual.
+
+Garanta que todas as atualizações de kernel foram feitas **antes** de iniciar a instalação do módulo do Guest
+Additions, caso contrário você irá perder seu tempo repetindo a instalação do Guest Additions.
 
 ## Referências
 
