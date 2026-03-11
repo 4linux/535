@@ -5,39 +5,29 @@
 
 VAGRANT_DISABLE_VBOXSYMLINKCREATE = 1
 ROCKY_LINUX = 'bento/rockylinux-9.6'
-UBUNTU = 'devopsbox/ubuntu-20.04'
+UBUNTU = 'bento/ubuntu-24.04'
+PLAYBOOKS_DIR = '/vagrant/provision/ansible'
 
 vms = {
   'ansible' => { 'memory' => '3584', 'cpus' => 2, 'ip' => '199', 'box' => UBUNTU,
-                 'provision' => 'provision/ansible/ansible.yaml' },
+                 'provision' => "#{PLAYBOOKS_DIR}/ansible.yaml" },
   'balancer' => { 'memory' => '700', 'cpus' => 1, 'ip' => '200', 'box' => ROCKY_LINUX,
-                  'provision' => 'provision/ansible/balancer.yaml' },
+                  'provision' => "#{PLAYBOOKS_DIR}/balancer.yaml" },
   'webserver1' => { 'memory' => '700', 'cpus' => 1, 'ip' => '201', 'box' => UBUNTU,
-                    'provision' => 'provision/ansible/webserver1.yaml' },
+                    'provision' => "#{PLAYBOOKS_DIR}/webserver1.yaml" },
   'webserver2' => { 'memory' => '700', 'cpus' => 1, 'ip' => '202', 'box' => ROCKY_LINUX,
-                    'provision' => 'provision/ansible/webserver2.yaml' },
+                    'provision' => "#{PLAYBOOKS_DIR}/webserver2.yaml" },
   'dbserver' => { 'memory' => '600', 'cpus' => 1, 'ip' => '203', 'box' => 'bento/debian-13',
-                  'provision' => 'provision/ansible/dbserver.yaml' }
+                  'provision' => "#{PLAYBOOKS_DIR}/dbserver.yaml" }
 }
 
-install_ansible_apt = <<~CMDS
+install_apt_packages = <<~CMDS
   export DEBIAN_FRONTEND=noninteractive
   sudo apt-get update
   sudo apt-get upgrade -y
-  sudo apt-get install python3.10-venv -y
+  sudo apt-get install python3-venv -y
   sudo apt-get autoremove -y
   sudo apt-get clean
-
-  if [[ ! -d /home/vagrant/.venv ]]
-  then
-    python3 -m venv /home/vagrant/.venv
-    source /home/vagrant/.venv/bin/activate && python -m pip install ansible
-  fi
-
-  if [[ ! -f /etc/ansible/ansible.cfg ]]
-  then
-      sudo ansible-config init --disabled > /etc/ansible/ansible.cfg
-  fi
 CMDS
 
 # https://wiki.rockylinux.org/rocky/repo/#community-approved-repositories
@@ -71,7 +61,11 @@ Vagrant.configure('2') do |config|
         vb.customize ['modifyvm', :id, '--graphicscontroller', 'vmsvga']
       end
       k.vm.provision 'shell', inline: install_ansible_rpm if conf['box'] == ROCKY_LINUX
-      k.vm.provision 'shell', inline: install_ansible_apt if conf['box'] == UBUNTU
+
+      if conf['box'] == UBUNTU
+        k.vm.provision 'shell', inline: install_apt_packages
+        k.vm.provision 'shell', path: 'ansible-by-pip.sh', privileged: false
+      end
 
       if name != 'ansible'
         k.vm.provision 'ansible_local' do |ansible|
@@ -88,7 +82,7 @@ Vagrant.configure('2') do |config|
     end
   end
   config.vm.define 'winclient' do |win10|
-    win10.vm.box = 'devopsbox/windows-10'
+    win10.vm.box = 'gusztavvargadr/windows-11'
     win10.vm.network 'private_network', ip: '172.16.0.204'
     win10.vm.box_version = '1.0'
     win10.vm.guest = :windows
