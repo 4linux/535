@@ -111,6 +111,8 @@ O *box* original utilizado para a VM Windows apresenta uma série de problemas e
 Instalar o Guest Additions nas VMs Linux é **requerido** para providenciar o compartilhamento de arquivos entre as VMs.
 Também melhora bastante a experiência em utilizar as VMs com o Virtualbox.
 
+> Usar um *box* que já tenha o Guest Additions instalado é sempre uma boa ideia para evitar este trabalho todo
+
 Existe muita documentação disponível sobre o tema na internet, então vou limitar os comentários aqui para indicar como
 utilizar essa funcionalidade com as VMs do treinamento.
 
