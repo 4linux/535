@@ -140,6 +140,16 @@ Additions, caso contrário você irá perder seu tempo repetindo a instalação 
 Parte das automações relacionadas garantem que os servidores se comuniquem entre si usando chaves assimétricas, tanto
 para autenticação quanto para aferir os servidores.
 
+Crie uma chave SSH e copie ele para os servidores com o comando ssh-copy:
+
+```
+ssh-copy-id -i ~/.ssh/4linux.pub suporte@172.16.0.199
+```
+
+Você terá que digitar a senha, que é `4linux` para copiar a chave. Essa será a única vez que precisará fazer isso.
+
+Depois inicie o ssh-agent e adicione a chave privada nele com o `ssh-add`, para você não ter que especificar mais ela.
+
 Para que você use o cliente `ssh` para se conectar automaticamente nas VMs fazendo mesmo, utilize o arquivo
 ssh-setup.sh **antes** de iniciar a conexão, da seguinte forma:
 
@@ -148,23 +158,6 @@ ssh-setup.sh **antes** de iniciar a conexão, da seguinte forma:
 ```
 
 Isso configurará as CLI's do OpenSSH para trabalhar da mesma forma como os servidores funcionam.
-
-## Referências
-
-[1]: https://4linux.com.br
-[2]: https://git-scm.com/downloads
-[3]: https://www.virtualbox.org/wiki/Downloads
-[4]: https://www.vagrantup.com/downloads
-[5]: https://cygwin.com/install.html
-[6]: https://www.vagrantup.com/
-[7]: ./Vagrantfile
-[8]: https://www.vagrantup.com/docs
-
-- [4Linux][1]
-- [Git][2]
-- [Virtualbox][3]
-- [Cygwin][5]
-- [Vagrant][6]
 
 ### Como configurar o Docker para executar o systemd
 
@@ -176,3 +169,59 @@ container e usar o mesmo para testes automatizados com o Molecule.
 
 - https://developers.redhat.com/blog/2014/05/05/running-systemd-within-docker-container
 - https://developers.redhat.com/blog/2019/04/24/how-to-run-systemd-in-a-container
+
+## Como configurar o Ansible na VM ansible
+
+Todas as VMs já terão o Ansible instalado globalmente.
+
+Você poderia utilizar esse Ansible, mas invariavelmente a versão dele será mais antiga que a última versão disponível
+para download.
+
+Além disso, o que é instalado nas VMs é o Ansible Core, que não vem com diversas [ferramentas muito úteis][9] para o
+desenvolvimento de playbooks e roles.
+
+Faça o login com o usuário `suporte`, e usando o método abaixo, você instala uma versão privada do Ansible somente para
+este usuário, sem correr nenhum risco de interferir com a versão global. Repare que o `sudo` não é usado pois as
+permissões necessárias você já tem.
+
+```
+python3 -m venv $HOME/.venv
+. $HOME/.venv/bin/activate
+python3 -m pip install -U pip
+python3 -m pip install ansible-dev-tools
+```
+
+Toda a vez que você quiser usar o Ansible, ative o virtual environment do Python primeiro.
+
+## Referências
+
+[1]: https://4linux.com.br
+[2]: https://git-scm.com/downloads
+[3]: https://www.virtualbox.org/wiki/Downloads
+[4]: https://www.vagrantup.com/downloads
+[5]: https://cygwin.com/install.html
+[6]: https://www.vagrantup.com/
+[7]: ./Vagrantfile
+[8]: https://www.vagrantup.com/docs
+[9]: https://docs.ansible.com/projects/dev-tools/
+
+- [4Linux][1]
+- [Git][2]
+- [Virtualbox][3]
+- [Cygwin][5]
+- [Vagrant][6]
+- [ansible-dev-tools][9]
+
+## TODO
+
+```ruby
+if conf['box'] == UBUNTU
+  k.vm.provision 'shell', inline: install_apt_packages
+  k.vm.provision 'shell', path: 'ansible-by-pip.sh', privileged: false
+end
+
+k.vm.provision 'ansible_local' do |ansible|
+  ansible.playbook = conf['provision']
+  ansible.install_mode = :pip
+  ansible.provisioning_path = '/home/vagrant/.venv/bin'
+```
