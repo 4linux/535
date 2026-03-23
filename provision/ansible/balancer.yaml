@@ -26,6 +26,14 @@
         shell: /bin/bash
         password: '$1$gGnGcYuu$nfGgkuOm8xRp9vvL8rmIM/'
 
+    - name: Configurando o OpenSSH do usuário suporte
+      ansible.builtin.file:
+        path: /home/suporte/.ssh
+        state: directory
+        mode: '0700'
+        owner: suporte
+        group: suporte
+
     - name: Garantir permissão de root para o usuário suporte
       ansible.builtin.lineinfile:
         path: /etc/sudoers

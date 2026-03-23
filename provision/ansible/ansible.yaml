@@ -33,6 +33,26 @@
         insertafter: 'vagrant ALL=(ALL) NOPASSWD: ALL'
         line: 'suporte ALL=(ALL) NOPASSWD: ALL'
 
+    - name: Configurando o OpenSSH do usuário suporte
+      ansible.builtin.file:
+        path: /home/suporte/.ssh
+        state: directory
+        mode: '0700'
+        owner: suporte
+        group: suporte
+
+    - name: Configurando o cache de fatos do Ansible
+      ansible.builtin.file:
+        path: /home/suporte/.ansible/cache/facts
+        state: directory
+        mode: '0700'
+
+    - name: Configurando os logs do Ansible
+      ansible.builtin.file:
+        path: /home/suporte/.ansible/logs
+        state: directory
+        mode: '0700'
+
     - name: Criando diretório lookup
       ansible.posix.synchronize:
         src: files/lookup

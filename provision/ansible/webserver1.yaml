@@ -1,5 +1,6 @@
 ---
-- hosts: webserver1
+- name: Configuração básica do webserver1
+  hosts: webserver1
   become: yes
   become_user: root
   become_method: sudo
@@ -11,6 +12,28 @@
         path: /etc/hosts
         line: "{{ item }}"
       with_items: '{{ linux_hosts_file }}'
+
+    - name: Adiciona usuário suporte
+      ansible.builtin.user:
+        name: suporte
+        state: present
+        shell: /bin/bash
+        password: '$1$gGnGcYuu$nfGgkuOm8xRp9vvL8rmIM/'
+
+    - name: Garantir permissão de root para o usuário suporte
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers
+        state: present
+        insertafter: 'vagrant ALL=(ALL) NOPASSWD: ALL'
+        line: 'suporte ALL=(ALL) NOPASSWD: ALL'
+
+    - name: Configurando o OpenSSH do usuário suporte
+      ansible.builtin.file:
+        path: /home/suporte/.ssh
+        state: directory
+        mode: '0700'
+        owner: suporte
+        group: suporte
 
     - name: Ajustando /etc/hosts
       lineinfile:

@@ -140,15 +140,19 @@ Additions, caso contrário você irá perder seu tempo repetindo a instalação 
 Parte das automações relacionadas garantem que os servidores se comuniquem entre si usando chaves assimétricas, tanto
 para autenticação quanto para aferir os servidores.
 
-Crie uma chave SSH e copie ele para os servidores com o comando ssh-copy:
+Crie uma chave SSH e copie-a para todos os servidores com o comando ssh-copy:
 
+```bash
+for i in {199..203}
+do
+    ssh-copy-id -i ~/.ssh/vagrant.pub "suporte@172.16.0.$i"
+done
 ```
-ssh-copy-id -i ~/.ssh/4linux.pub suporte@172.16.0.199
-```
 
-Você terá que digitar a senha, que é `4linux` para copiar a chave. Essa será a única vez que precisará fazer isso.
+Você terá que digitar a senha `4linux` para copiar a chave. Essa será a única vez que precisará fazer isso.
 
-Depois inicie o ssh-agent e adicione a chave privada nele com o `ssh-add`, para você não ter que especificar mais ela.
+Depois inicie o `ssh-agent` e adicione a chave privada nele com o `ssh-add`, para que você não tenha que ficar
+informando ela a cada nova execução.
 
 Para que você use o cliente `ssh` para se conectar automaticamente nas VMs fazendo mesmo, utilize o arquivo
 ssh-setup.sh **antes** de iniciar a conexão, da seguinte forma:
@@ -213,6 +217,9 @@ Toda a vez que você quiser usar o Ansible, ative o virtual environment do Pytho
 - [ansible-dev-tools][9]
 
 ## TODO
+
+- transformar em role toda a configuração do usuário `suporte`
+- transformar em role toda a configuração de IPv6
 
 ```ruby
 if conf['box'] == UBUNTU

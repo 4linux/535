@@ -32,6 +32,14 @@
         insertafter: 'vagrant ALL=(ALL) NOPASSWD: ALL'
         line: 'suporte ALL=(ALL) NOPASSWD: ALL'
 
+    - name: Configurando o OpenSSH do usuário suporte
+      ansible.builtin.file:
+        path: /home/suporte/.ssh
+        state: directory
+        mode: '0700'
+        owner: suporte
+        group: suporte
+
     - name: Libera HTTP no firewall
       ansible.builtin.command:
         cmd: firewall-cmd --permanent --add-service=http
