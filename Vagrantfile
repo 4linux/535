@@ -59,6 +59,11 @@ Vagrant.configure('2') do |config|
         vb.name = name
         vb.customize ['modifyvm', :id, '--vram', '16']
         vb.customize ['modifyvm', :id, '--graphicscontroller', 'vmsvga']
+
+        if conf['box'] == ROCKY_LINUX
+          vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', '1', '--device', '0',
+                        '--type', 'dvddrive', '--medium', 'emptydrive']
+        end
       end
 
       k.vm.provision 'shell', inline: install_ansible_rpm if conf['box'] == ROCKY_LINUX
