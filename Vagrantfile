@@ -21,6 +21,11 @@ vms = {
                   'provision' => "#{PLAYBOOKS_DIR}/dbserver.yaml" }
 }
 
+# Configura Virtualbox Guest Addditions no Ubuntu/Debian
+# Não deve ser necessário fazer isso pois os boxes do usuário Bento já vem com ele instalado
+# apt-get install --no-install-recommends build-essential dkms linux-headers-$(uname -r)
+# apt-get purge build-essential dkms linux-headers-$(uname -r)
+# apt-get autoremove -y
 install_apt_packages = <<~CMDS
   export DEBIAN_FRONTEND=noninteractive
   sudo apt-get update
@@ -30,9 +35,8 @@ install_apt_packages = <<~CMDS
   sudo apt-get clean
 CMDS
 
+# Configura o Virtualbox Guest Additions no Rocky Linux
 # https://wiki.rockylinux.org/rocky/repo/#community-approved-repositories
-# Configure Virtualbox Guest Additions
-# Upgrading the system might also change the kernel version, so installing those only after an upgrade and reboot
 # sudo dnf install -y "kernel-devel-$(uname -r)" "kernel-headers-$(uname -r)" gcc make elfutils-libelf-devel bzip2 perl tar
 # sudo dnf remove -y "kernel-devel-$(uname -r)" "kernel-headers-$(uname -r)" gcc make elfutils-libelf-devel bzip2 perl tar
 install_ansible_rpm = <<~CMDS
@@ -59,11 +63,8 @@ Vagrant.configure('2') do |config|
         vb.name = name
         vb.customize ['modifyvm', :id, '--vram', '16']
         vb.customize ['modifyvm', :id, '--graphicscontroller', 'vmsvga']
-
-        if conf['box'] == ROCKY_LINUX
-          vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', '1', '--device', '0',
-                        '--type', 'dvddrive', '--medium', 'emptydrive']
-        end
+        vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', '1', '--device', '0',
+                      '--type', 'dvddrive', '--medium', 'emptydrive']
       end
 
       k.vm.provision 'shell', inline: install_ansible_rpm if conf['box'] == ROCKY_LINUX
