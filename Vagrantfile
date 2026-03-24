@@ -28,6 +28,7 @@ vms = {
 # apt-get autoremove -y
 install_apt_packages = <<~CMDS
   export DEBIAN_FRONTEND=noninteractive
+  sudo apt-get purge snapd cryptsetup -y
   sudo apt-get update
   sudo apt-get upgrade -y
   sudo apt-get install python3-venv -y
@@ -68,7 +69,11 @@ Vagrant.configure('2') do |config|
       end
 
       k.vm.provision 'shell', inline: install_ansible_rpm if conf['box'] == ROCKY_LINUX
-      k.vm.provision 'shell', inline: install_apt_packages if conf['box'] == UBUNTU
+
+      if conf['box'] == UBUNTU
+        config.vm.synced_folder '.', '/vagrant', mount_options: ['_netdev']
+        k.vm.provision 'shell', inline: install_apt_packages
+      end
 
       k.vm.provision 'ansible_local' do |ansible|
         ansible.playbook = conf['provision']
