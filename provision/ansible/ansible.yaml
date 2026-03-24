@@ -1,5 +1,7 @@
 ---
-- hosts:
+- name: Configura nó de controle do Ansible
+  gather_facts: false
+  hosts:
     - ansible
   become: yes
   become_user: root

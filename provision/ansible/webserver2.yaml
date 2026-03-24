@@ -3,6 +3,7 @@
   become: yes
   become_user: root
   become_method: sudo
+  gather_facts: false
   vars_files:
     - vars/hosts.yaml
   tasks:
