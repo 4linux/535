@@ -48,12 +48,24 @@
         path: /home/suporte/.ansible/cache/facts
         state: directory
         mode: '0700'
+        owner: suporte
+        group: suporte
 
     - name: Configurando os logs do Ansible
       ansible.builtin.file:
         path: /home/suporte/.ansible/logs
         state: directory
         mode: '0700'
+        owner: suporte
+        group: suporte
+
+    - name: Configurando os logs do Ansible
+      ansible.builtin.file:
+        path: /home/suporte/.ansible/tmp
+        state: directory
+        mode: '0700'
+        owner: suporte
+        group: suporte
 
     - name: Criando diretório lookup
       ansible.posix.synchronize:
