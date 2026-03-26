@@ -85,16 +85,16 @@ Vagrant.configure('2') do |config|
       k.vm.provision 'shell', path: 'vm-public-key.sh'
     end
   end
-  config.vm.define 'winclient' do |win10|
-    win10.vm.box = 'gusztavvargadr/windows-11'
-    win10.vm.network 'private_network', ip: '172.16.0.204'
-    win10.vm.box_version = '1.0'
-    win10.vm.guest = :windows
-    win10.vm.provider 'virtualbox' do |vb|
+  config.vm.define 'winclient', autostart: false do |mswin|
+    mswin.vm.box = 'gusztavvargadr/windows-11'
+    mswin.vm.network 'private_network', ip: '172.16.0.204'
+    mswin.vm.box_version = '1.0'
+    mswin.vm.guest = :windows
+    mswin.vm.provider 'virtualbox' do |vb|
       vb.memory = '3072'
     end
-    win10.vm.communicator = :winrm
-    win10.winrm.username = 'vagrant'
-    win10.winrm.password = 'vagrant'
+    mswin.vm.communicator = :winrm
+    mswin.winrm.username = 'vagrant'
+    mswin.winrm.password = 'vagrant'
   end
 end
