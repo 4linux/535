@@ -9,6 +9,7 @@ Eu revisei o conteúdo deste repositório após cloná-los com os seguintes obje
 1. Utilizar boas práticas de configurações de SSH, como incluir as chaves das VMs para sempre confirmar a identidade das VMs, assim como evitar o *login* com o usuário root
 1. Atualizar/substituir os *boxes* das distribuições Linux, visto que algumas delas sequer conseguiam mais instalar atualizações
 1. Utilizar uma versão mais recente do Ansible, independente da versão disponível como pacote para a distribuição Linux.
+1. Utilizar o recurso de *linked clone* do Virtualbox para reduzir o espaço em disco total utilizado para ter todas as VMs.
 
 No caso onde a distribuição CentOS era usada, foram feitas substituições pelo Rocky Linux, que por sua vez pode
 apresentar **problemas** com a versão do Virtualbox disponível (eu utilizei a versão 7.1.16 r172425 (Qt6.4.2)). Caso
@@ -163,6 +164,14 @@ ssh-setup.sh **antes** de iniciar a conexão, da seguinte forma:
 
 Isso configurará as CLI's do OpenSSH para trabalhar da mesma forma como os servidores funcionam.
 
+Como último passo, você deverá copiar a chave SSH privada para a VM ansible, já que ela irá precisar se autenticar nas
+demais VMs para executar as ações do Ansible. No exemplo abaixo, estou copiando a mesma chave privada que o Vagrant
+gerou automaticamente:
+
+```
+scp ~/.ssh/vagrant suporte@172.16.0.199:/home/suporte/.ssh/vagrant
+```
+
 ### Como configurar o Docker para executar o systemd
 
 São necessários uma série de ajustes (**perigosos** em termos de segurança) na configuração de um container para que o
@@ -217,9 +226,6 @@ Toda a vez que você quiser usar o Ansible, ative o virtual environment do Pytho
 - [ansible-dev-tools][9]
 
 ## TODO
-
-- transformar em role toda a configuração do usuário `suporte`
-- transformar em role toda a configuração de IPv6
 
 ```ruby
 if conf['box'] == UBUNTU
