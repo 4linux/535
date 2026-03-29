@@ -13,7 +13,7 @@
       lineinfile:
         path: /etc/hosts
         line: "{{ item }}"
-      with_items: '{{ linux_hosts_file }}'
+      loop: '{{ linux_hosts_file }}'
 
     - name: Ajustando /etc/hosts
       lineinfile:
@@ -35,37 +35,18 @@
         insertafter: 'vagrant ALL=(ALL) NOPASSWD: ALL'
         line: 'suporte ALL=(ALL) NOPASSWD: ALL'
 
-    - name: Configurando o OpenSSH do usuário suporte
+    - name: Configurando os subdiretórios para o Ansible
       ansible.builtin.file:
-        path: /home/suporte/.ssh
+        path: '{{ item }}'
         state: directory
         mode: '0700'
         owner: suporte
         group: suporte
-
-    - name: Configurando o cache de fatos do Ansible
-      ansible.builtin.file:
-        path: /home/suporte/.ansible/cache/facts
-        state: directory
-        mode: '0700'
-        owner: suporte
-        group: suporte
-
-    - name: Configurando os logs do Ansible
-      ansible.builtin.file:
-        path: /home/suporte/.ansible/logs
-        state: directory
-        mode: '0700'
-        owner: suporte
-        group: suporte
-
-    - name: Configurando os logs do Ansible
-      ansible.builtin.file:
-        path: /home/suporte/.ansible/tmp
-        state: directory
-        mode: '0700'
-        owner: suporte
-        group: suporte
+      loop:
+        - /home/suporte/.ansible/cache/facts
+        - /home/suporte/.ansible/logs
+        - /home/suporte/.ansible/tmp
+        - /home/suporte/.ssh
 
     - name: Criando diretório lookup
       ansible.posix.synchronize:
@@ -108,7 +89,7 @@
         line: '{{ item }}'
         state: present
         create: true
-      with_items:
+      loop:
         - net.ipv6.conf.all.disable_ipv6 = 1
         - net.ipv6.conf.default.disable_ipv6 = 1
         - net.ipv6.conf.lo.disable_ipv6 = 1
