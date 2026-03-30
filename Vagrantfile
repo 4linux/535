@@ -81,9 +81,10 @@ Vagrant.configure('2') do |config|
       k.vm.provision 'shell', path: 'vm-public-key.sh'
     end
   end
+
   config.vm.define 'winclient', autostart: false do |mswin|
     mswin.vm.box = 'gusztavvargadr/windows-11'
-    mswin.vm.network 'private_network', ip: '172.16.0.204'
+    mswin.vm.network 'private_network', ip: "172.16.0.#{VMS_CONFIG['winclient']['ip']}"
     mswin.vm.box_version = '1.0'
     mswin.vm.guest = :windows
     mswin.vm.provider 'virtualbox' do |vb|
