@@ -1,0 +1,9 @@
+---
+galaxy_info:
+  author: Alceu Rodrigues de Freitas Junior
+  description: disables ipv6 from Linux hosts
+  license: GPL-3.0-only
+  min_ansible_version: 2.2
+  galaxy_tags:
+    - linux
+    - ipv6

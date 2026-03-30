@@ -1,0 +1,4 @@
+---
+- name: 'Reload sysctl'
+  ansible.builtin.command:
+    cmd: sysctl -p /etc/sysctl.d/60-disable-ipv6.conf
