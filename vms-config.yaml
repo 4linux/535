@@ -1,0 +1,38 @@
+---
+  playbooks_dir: /vagrant/provision/ansible
+  distros:
+    - &ubuntu bento/ubuntu-24.04
+    - &rocky bento/rockylinux-9.6
+  hosts:
+    ansible:
+      memory: 3584
+      cpus: 2
+      ip: '199'
+      box: *ubuntu
+      provision: ansible.yaml
+    balancer:
+      memory: 700
+      cpus: 1
+      ip: '200'
+      box: *rocky
+      provision: balancer.yaml
+    webserver1:
+      memory: 700
+      cpus: 1
+      ip: '201'
+      box: *ubuntu
+      provision: webserver1.yaml
+    webserver2:
+      memory: 700
+      cpus: 1
+      ip: '202'
+      box: *rocky
+      provision: webserver2.yaml
+    dbserver:
+      memory: 600
+      cpus: 1
+      ip: '203'
+      box: bento/debian-13
+      provision: dbserver.yaml
+    winclient:
+      ip: '204'

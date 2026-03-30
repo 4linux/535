@@ -3,23 +3,17 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-VAGRANT_DISABLE_VBOXSYMLINKCREATE = 1
-ROCKY_LINUX = 'bento/rockylinux-9.6'
-UBUNTU = 'bento/ubuntu-24.04'
-PLAYBOOKS_DIR = '/vagrant/provision/ansible'
+require 'yaml'
 
-vms = {
-  'ansible' => { 'memory' => '3584', 'cpus' => 2, 'ip' => '199', 'box' => UBUNTU,
-                 'provision' => "#{PLAYBOOKS_DIR}/ansible.yaml" },
-  'balancer' => { 'memory' => '700', 'cpus' => 1, 'ip' => '200', 'box' => ROCKY_LINUX,
-                  'provision' => "#{PLAYBOOKS_DIR}/balancer.yaml" },
-  'webserver1' => { 'memory' => '700', 'cpus' => 1, 'ip' => '201', 'box' => UBUNTU,
-                    'provision' => "#{PLAYBOOKS_DIR}/webserver1.yaml" },
-  'webserver2' => { 'memory' => '700', 'cpus' => 1, 'ip' => '202', 'box' => ROCKY_LINUX,
-                    'provision' => "#{PLAYBOOKS_DIR}/webserver2.yaml" },
-  'dbserver' => { 'memory' => '600', 'cpus' => 1, 'ip' => '203', 'box' => 'bento/debian-13',
-                  'provision' => "#{PLAYBOOKS_DIR}/dbserver.yaml" }
-}
+VAGRANT_DISABLE_VBOXSYMLINKCREATE = 1
+
+def vms_config
+  # Lê as configurações das VMs Linux do arquivo externo
+  cfg = YAML.load_file(File.join(File.dirname(__FILE__), 'vms-config.yaml'), aliases: true)
+  cfg.values_at('playbooks_dir', 'hosts')
+end
+
+PLAYBOOK_DIR, VMS_CONFIG = vms_config
 
 # Configura Virtualbox Guest Addditions no Ubuntu/Debian
 # Não deve ser necessário fazer isso pois os boxes do usuário Bento já vem com ele instalado
@@ -54,7 +48,7 @@ CMDS
 Vagrant.configure('2') do |config|
   config.vm.box_check_update = false
 
-  vms.each do |name, conf|
+  VMS_CONFIG.each do |name, conf|
     config.vm.define name do |k|
       k.vm.box = conf['box']
       k.vm.hostname = name
@@ -71,15 +65,17 @@ Vagrant.configure('2') do |config|
                       '--type', 'dvddrive', '--medium', 'emptydrive']
       end
 
-      k.vm.provision 'shell', inline: install_ansible_rpm if conf['box'] == ROCKY_LINUX
+      k.vm.provision 'shell', inline: install_ansible_rpm if conf['box'] =~ /rocky/
 
-      if conf['box'] == UBUNTU
+      if conf['box'] =~ /ubuntu/
         config.vm.synced_folder '.', '/vagrant', mount_options: ['_netdev']
         k.vm.provision 'shell', inline: install_apt_packages
       end
 
-      k.vm.provision 'ansible_local' do |ansible|
-        ansible.playbook = conf['provision']
+      if name != 'winclient' # já tem seu próprio bloco de configuração
+        k.vm.provision 'ansible_local' do |ansible|
+          ansible.playbook = File.join(PLAYBOOK_DIR, conf['provision'])
+        end
       end
 
       k.vm.provision 'shell', path: 'vm-public-key.sh'
