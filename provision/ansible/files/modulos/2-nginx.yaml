@@ -25,7 +25,10 @@
   post_tasks:
   - name: Testa a instalação
     ansible.builtin.uri:
-      url: http://172.16.0.200
+      url: http://balancer
+      status_code:
+        - 200 # se os webservers estiverem OK
+        - 502 # se nenhum dos webservers estiverem OK
 
   handlers:
    - name: Start Nginx
