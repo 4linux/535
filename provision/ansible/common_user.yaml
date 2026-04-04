@@ -1,0 +1,22 @@
+---
+- name: Cria entrada no /etc/passwd
+  ansible.builtin.user:
+    name: suporte
+    state: present
+    shell: /bin/bash
+    password: '$1$gGnGcYuu$nfGgkuOm8xRp9vvL8rmIM/'
+
+- name: Configura o OpenSSH do usuário
+  ansible.builtin.file:
+    path: /home/suporte/.ssh
+    state: directory
+    mode: '0700'
+    owner: suporte
+    group: suporte
+
+- name: Garantir permissão de root para o usuário
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers
+    state: present
+    insertafter: 'vagrant ALL=(ALL) NOPASSWD: ALL'
+    line: 'suporte ALL=(ALL) NOPASSWD: ALL'
