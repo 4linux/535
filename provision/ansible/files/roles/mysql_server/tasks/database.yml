@@ -34,7 +34,7 @@
     host: "{{ item }}"
     state: present
     priv: "dexter500.*:ALL"
-  with_items:
+  loop:
     - "localhost"
     - "127.0.0.1"
     - "%"

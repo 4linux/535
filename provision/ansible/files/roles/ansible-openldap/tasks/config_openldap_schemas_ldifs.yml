@@ -22,7 +22,7 @@
     path: "{{ converted_ldif.files[0].path }}"
     regexp: "^{{ item }}"
     state: "absent"
-  with_items: ["structuralObjectClass:","entryUUID:","creatorsName:","createTimestamp:","entryCSN:","modifiersName:","modifyTimestamp:"]
+  loop: ["structuralObjectClass:","entryUUID:","creatorsName:","createTimestamp:","entryCSN:","modifiersName:","modifyTimestamp:"]
 
 - name: config_openldap_schemas_ldfis | adding new schema to LDAP tree
   command: ldapadd -Y EXTERNAL -H ldapi:/// -f {{ converted_ldif.files[0].path }}

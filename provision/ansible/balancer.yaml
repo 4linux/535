@@ -14,7 +14,7 @@
       ansible.builtin.lineinfile:
         path: /etc/hosts
         line: "{{ item }}"
-      with_items: '{{ linux_hosts_file }}'
+      loop: '{{ linux_hosts_file }}'
 
     - name: Ajustando /etc/hosts
       ansible.builtin.lineinfile:

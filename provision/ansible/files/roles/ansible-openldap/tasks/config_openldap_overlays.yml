@@ -7,10 +7,10 @@
     group: 'root'
     mode: '0640'
   become: true
-  with_items: "{{overlay.ldifs}}"
+  loop: "{{overlay.ldifs}}"
 
 - name: config_openldap_overlays | applying or configuring overlay
   command: "ldap{{item.action}} -Y EXTERNAL -H ldapi:/// -f {{ openldap_ldif_tmp_dir }}/{{ item.path }}"
   ignore_errors: yes #fails on duplicate
-  with_items: "{{overlay.ldifs}}"
+  loop: "{{overlay.ldifs}}"
 
