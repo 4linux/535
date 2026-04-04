@@ -217,6 +217,7 @@ Toda a vez que você quiser usar o Ansible, ative o virtual environment do Pytho
 [7]: ./Vagrantfile
 [8]: https://www.vagrantup.com/docs
 [9]: https://docs.ansible.com/projects/dev-tools/
+[10]: https://linux-system-roles.github.io/
 
 - [4Linux][1]
 - [Git][2]
@@ -224,6 +225,7 @@ Toda a vez que você quiser usar o Ansible, ative o virtual environment do Pytho
 - [Cygwin][5]
 - [Vagrant][6]
 - [ansible-dev-tools][9]
+- [Linux System Roles][10]
 
 ## TODO
 
