@@ -1,0 +1,10 @@
+---
+ansible-navigator:
+  execution-environment:
+    volume-mounts:
+      - src: '/vagrant'
+        dest: '/vagrant'
+      - src: '/tmp'
+        dest: '/tmp'
+      - src: '/var'
+        dest: '/var'

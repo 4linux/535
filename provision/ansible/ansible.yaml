@@ -30,6 +30,14 @@
         shell: /bin/bash
         password: '$1$gGnGcYuu$nfGgkuOm8xRp9vvL8rmIM/'
 
+    - name: Configurando o OpenSSH do usuário suporte
+      ansible.builtin.file:
+        path: /home/suporte/.ssh
+        state: directory
+        mode: '0700'
+        owner: suporte
+        group: suporte
+
     - name: Garantir permissão de root para o usuário suporte
       ansible.builtin.lineinfile:
         path: /etc/sudoers
@@ -37,18 +45,13 @@
         insertafter: 'vagrant ALL=(ALL) NOPASSWD: ALL'
         line: 'suporte ALL=(ALL) NOPASSWD: ALL'
 
-    - name: Configurando os subdiretórios para o Ansible
+    - name: Configurando o diretório de log
       ansible.builtin.file:
-        path: '{{ item }}'
+        path: /var/log/ansible
         state: directory
-        mode: '0700'
-        owner: suporte
+        mode: '0770'
+        owner: root
         group: suporte
-      loop:
-        - /home/suporte/.ansible/cache/facts
-        - /home/suporte/.ansible/logs
-        - /home/suporte/.ansible/tmp
-        - /home/suporte/.ssh
 
     - name: Criando diretório lookup
       ansible.posix.synchronize:
