@@ -2,29 +2,27 @@
 
 Repositório para armazenar o Laboratório do curso de Ansible da [4Linux][1].
 
-Eu revisei o conteúdo deste repositório após cloná-los com os seguintes objetivos:
+Eu fiz um *fork* deste repositório para poder revisar o conteúdo com os seguintes objetivos:
 
 1. Manter a configuração DRY: algumas decisões tomadas foram feitas com objetivos didáticos, mas existe repetições de configuração.
-1. Evitar o uso do sudo para operações, já que é complemente desnecessário
-1. Utilizar boas práticas de configurações de SSH, como incluir as chaves das VMs para sempre confirmar a identidade das VMs, assim como evitar o *login* com o usuário root
-1. Atualizar/substituir os *boxes* das distribuições Linux, visto que algumas delas sequer conseguiam mais instalar atualizações
+1. Evitar o uso do Sudo para operações, já que é completamente desnecessário.
+1. Utilizar boas práticas de configurações de SSH, como incluir as chaves das VMs para sempre confirmar a identidade das VMs, assim como evitar o *login* com o usuário root.
+1. Atualizar/substituir os *boxes* das distribuições Linux, visto que algumas delas foram descontinuadas.
 1. Utilizar uma versão mais recente do Ansible, independente da versão disponível como pacote para a distribuição Linux.
-1. Utilizar o recurso de *linked clone* do Virtualbox para reduzir o espaço em disco total utilizado para ter todas as VMs.
+1. Utilizar o recurso de *linked clone* do Virtualbox para reduzir o espaço em disco total utilizado pelas VMs.
 
-No caso onde a distribuição CentOS era usada, foram feitas substituições pelo Rocky Linux, que por sua vez pode
-apresentar **problemas** com a versão do Virtualbox disponível (eu utilizei a versão 7.1.16 r172425 (Qt6.4.2)). Caso
-você identifique falhas na inicialização, tente usar uma versão mais recente do Virtualbox e/ou Rocky Linux.
+No caso da distribuição CentOS, houveram substituições pelo Rocky Linux, que por sua vez pode apresentar **problemas**
+com a versão do Virtualbox disponível (eu utilizei a versão 7.1.16 r172425 (Qt6.4.2)). Caso você identifique falhas na
+inicialização, tente usar uma versão mais recente do Virtualbox e/ou Rocky Linux.
 
-A configuração de alguns aspectos de segurança (como o caso do OpenSSH) visa reproduzir o que seria necessário fazer em
-um ambiente produtivo, apesar de aceitável em um laboratório de estudos de Ansible.
+A configuração de alguns aspectos de segurança (como o caso do OpenSSH) visa tentar reproduzir o que seria necessário
+fazer em um ambiente produtivo, apesar deste ser um laborátorio.
 
 Você pode verificar as alterações que fiz usando o `git log` (ou equivalente) para ler o motivo dessas modificações.
 
 ## Ajustes pendentes
 
-- reutilizar configuração para desabilitar IPv6 em todas as VMs
-- reutilizar configuração para garantir o usuário `suporte` em todas as VMs
-- recriar toda a configuração do Molecule para trabalhar com imagens Docker
+- recriar toda a configuração do Molecule para trabalhar com imagens Docker via Podman.
 
 ## Dependências
 
@@ -122,8 +120,8 @@ arquivos *headers* da versão do kernel presente, inserir o CDROM respectivo e r
 um módulo específico para a versão do kernel presente.
 
 Controlar isto via Vagrant é complexo, principalmente se você não quer manter essas ferramentas de desenvolvimento
-instaladas, se espaço em disco for um problema. O plugin vbguest tenta ajudar neste sentido, mas não consegue ir muito
-longe sem alguma intervenção manual.
+instaladas, se espaço em disco for um problema. O *plug-in* vbguest tenta ajudar neste sentido, mas não consegue ir
+muito longe sem alguma intervenção manual.
 
 Disto isto, não consegui (pelo menos ainda) implementar idempotência com o Vagrant para esta tarefa e ainda manter a
 VM pequena. Reduzir o espaço em disco depois de instalar o Guest Additions não é uma tarefa trivial ou rápida. Você
@@ -134,7 +132,7 @@ Disto isto, revise o `Vagrantfile` neste repositório para habilitar/desabilitar
 os pacotes necessários (específicos por distribuição Linux) e rodar o procedimento manual.
 
 Garanta que todas as atualizações de kernel foram feitas **antes** de iniciar a instalação do módulo do Guest
-Additions, caso contrário você irá perder seu tempo repetindo a instalação do Guest Additions.
+Additions, caso contrário você irá perder seu tempo repetindo a instalação do mesmo.
 
 ### Configuração de SSH
 
@@ -226,17 +224,3 @@ Toda a vez que você quiser usar o Ansible, ative o virtual environment do Pytho
 - [Vagrant][6]
 - [ansible-dev-tools][9]
 - [Linux System Roles][10]
-
-## TODO
-
-```ruby
-if conf['box'] == UBUNTU
-  k.vm.provision 'shell', inline: install_apt_packages
-  k.vm.provision 'shell', path: 'ansible-by-pip.sh', privileged: false
-end
-
-k.vm.provision 'ansible_local' do |ansible|
-  ansible.playbook = conf['provision']
-  ansible.install_mode = :pip
-  ansible.provisioning_path = '/home/vagrant/.venv/bin'
-```
